@@ -1,2 +1,9 @@
 
 .DS_Store
+spring-initializr/pharmacy-spring.zip
+pharmacy-spring/.mvn/wrapper/maven-wrapper.jar
+pharmacy-spring/.mvn/wrapper/maven-wrapper.properties
+pharmacy-spring/.mvn/wrapper/maven-wrapper.jar
+pharmacy-spring/mvnw
+pharmacy-spring/mvnw.cmd
+pharmacy-spring/.mvn/wrapper/MavenWrapperDownloader.java
