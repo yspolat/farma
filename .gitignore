@@ -1,9 +1,16 @@
 
+.classpath
+.project
+.settings/
+target/
 .DS_Store
-spring-initializr/pharmacy-spring.zip
-pharmacy-spring/.mvn/wrapper/maven-wrapper.jar
-pharmacy-spring/.mvn/wrapper/maven-wrapper.properties
-pharmacy-spring/.mvn/wrapper/maven-wrapper.jar
-pharmacy-spring/mvnw
-pharmacy-spring/mvnw.cmd
-pharmacy-spring/.mvn/wrapper/MavenWrapperDownloader.java
+farma-app/backend/.mvn/wrapper/maven-wrapper.jar
+farma-app/backend/.mvn/wrapper/maven-wrapper.properties
+farma-app/backend/.mvn/wrapper/MavenWrapperDownloader.java
+farma-app/backend/mvnw
+farma-app/backend/mvnw.cmd
+farma-app/.idea/compiler.xml
+farma-app/.idea/encodings.xml
+farma-app/.idea/misc.xml
+farma-app/.idea/workspace.xml
+farma-app/.idea/vcs.xml

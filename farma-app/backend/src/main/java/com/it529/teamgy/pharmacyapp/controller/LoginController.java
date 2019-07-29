@@ -1,4 +1,4 @@
-package com.it529.teamgy.pharmacy.pharmacyspring;
+package com.it529.teamgy.pharmacyapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

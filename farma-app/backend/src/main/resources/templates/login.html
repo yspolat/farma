@@ -3,12 +3,14 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Login</title>
+    <!-- <link rel="stylesheet" href="../static/css/bootstrap-grid.min.css"> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+
 </head>
 <body>
 <div class="jumbotron">
     <h1 class="display-3">Welcome, thanks for visiting!</h1>
-    <p class="lead">Please login</p>
+    <p class="lead">You're not logged in - so you don't see much here. Try to log in:</p>
 </div>
 <div th:if="${param.error}">
     Invalid username and password.

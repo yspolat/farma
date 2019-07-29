@@ -1,4 +1,4 @@
-package com.it529.teamgy.pharmacy.pharmacyspring;
+package com.it529.teamgy.pharmacyapp.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
