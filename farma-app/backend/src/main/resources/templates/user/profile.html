@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h2>Profile Settings</h2>
+
+<div class="panel-group" style="margin-top:40px">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span th:utext="${userNameLast}"></span>
+        </div>
+    </div>
+</div>
+<form>
+    <div class="form-group row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="disabledInput" type="text" th:value="${userEmail}" disabled>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Location</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="testOrder" name="testOrder">
+                <option value="">Select Test Order</option>
+                <option th:each="country : ${countries}"
+                        th:value="${country.country_name}"
+                        th:text="${country.country_name}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+    </div>
+</form>
+</body>
+</html>
