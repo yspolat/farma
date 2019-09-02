@@ -1,6 +1,5 @@
 package com.it529.teamgy.pharmacyapp.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,24 +7,24 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class District {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String product_name;
 
-    @Column(name = "district_name")
+    @Column(name = "category")
     @NotEmpty(message = "*Can't be blank")
-    private String district_name;
+    private String category;
 
-    @ManyToOne
-    @JoinColumn
-    private Province province;
-
+    @OneToMany(mappedBy = "product")
+    Set<PharmacyProduct> products;
 }

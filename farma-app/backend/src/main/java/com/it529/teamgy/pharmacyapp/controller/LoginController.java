@@ -2,7 +2,9 @@ package com.it529.teamgy.pharmacyapp.controller;
 
 import javax.validation.Valid;
 
+import com.it529.teamgy.pharmacyapp.model.Pharmacy;
 import com.it529.teamgy.pharmacyapp.model.User;
+import com.it529.teamgy.pharmacyapp.service.PharmacyService;
 import com.it529.teamgy.pharmacyapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
 
     @RequestMapping(value={"/login"}, method = RequestMethod.GET)
     public ModelAndView login(){
@@ -48,6 +53,7 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("/registration.html");
         } else {
+            user.setPharmacy(pharmacyService.findById(1));
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
