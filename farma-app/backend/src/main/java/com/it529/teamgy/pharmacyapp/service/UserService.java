@@ -1,5 +1,6 @@
 package com.it529.teamgy.pharmacyapp.service;
 
+import com.it529.teamgy.pharmacyapp.model.PharmacyProduct;
 import com.it529.teamgy.pharmacyapp.model.Role;
 import com.it529.teamgy.pharmacyapp.model.User;
 import com.it529.teamgy.pharmacyapp.repository.RoleRepository;
@@ -11,10 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
 import java.util.HashSet;
 
 
@@ -25,6 +27,9 @@ public class UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository,
@@ -40,20 +45,50 @@ public class UserService {
         return new BCryptPasswordEncoder();
     }
 
-    public User saveUser(User user) {
+    public User createUser(User user) {
 
-        LOGGER.info("Save User");
-
+        LOGGER.info("UserService:createUser:" + user);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setActive(1);
-        Role userRole = roleRepository.findByRole("PHARMACIST");
+        user.setActive(1); // will be deleted
+        Role userRole = roleRepository.findByRole("PHARMACIST"); // will be deleted
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return userRepository.save(user);
     }
 
     public User findUserByEmail(String email) {
+        LOGGER.info("UserService:findUserByEmail:" + email);
         return userRepository.findByEmail(email);
     }
+
+    @Transactional
+    public User updateUserContact(User user) {
+
+        LOGGER.info("UserService:updateUserContact:" + user);
+
+        User persistedUser = entityManager.find(User.class, user.getId());
+        persistedUser.setAddress(user.getAddress());
+        persistedUser.setMobileNumber(user.getMobileNumber());
+        persistedUser.setCountry(user.getCountry());
+        persistedUser.setProvince(user.getProvince());
+        persistedUser.setDistrict(user.getDistrict());
+        entityManager.merge(persistedUser);
+
+        return persistedUser;
+    }
+
+    @Transactional
+    public User updateUserPassword(User user) {
+
+        LOGGER.info("UserService:updateUserPassword:" + user);
+        User persistedUser = entityManager.find(User.class, user.getId());
+        String newPassword = bCryptPasswordEncoder.encode(user.getNewPassword());
+        persistedUser.setPassword(newPassword);
+        LOGGER.info("UserService:updateUserPassword:newPassword" + newPassword);
+        entityManager.merge(persistedUser);
+
+        return persistedUser;
+    }
+
 
     /*
     public Optional<User> getUserById(long id) {

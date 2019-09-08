@@ -1,10 +1,7 @@
 package com.it529.teamgy.pharmacyapp.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,11 +15,14 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String country_name;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<Province> provinces;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    private List<User> users;
 
 }

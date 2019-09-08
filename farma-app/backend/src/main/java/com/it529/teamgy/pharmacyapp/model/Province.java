@@ -1,10 +1,7 @@
 package com.it529.teamgy.pharmacyapp.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.List;
 public class Province {
 
     @Id
-    private int id;
+    private Long id;
 
     private String province_name;
 
@@ -27,5 +24,8 @@ public class Province {
 
     @OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
     private List<District> districts;
+
+    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
+    private List<User> users;
 
 }

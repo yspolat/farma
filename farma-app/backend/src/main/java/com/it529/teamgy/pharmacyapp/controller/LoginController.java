@@ -2,7 +2,6 @@ package com.it529.teamgy.pharmacyapp.controller;
 
 import javax.validation.Valid;
 
-import com.it529.teamgy.pharmacyapp.model.Pharmacy;
 import com.it529.teamgy.pharmacyapp.model.User;
 import com.it529.teamgy.pharmacyapp.service.PharmacyService;
 import com.it529.teamgy.pharmacyapp.service.UserService;
@@ -25,15 +24,14 @@ public class LoginController {
     private PharmacyService pharmacyService;
 
     @RequestMapping(value={"/login"}, method = RequestMethod.GET)
-    public ModelAndView login(){
+    public ModelAndView loginPage(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/login.html");
         return modelAndView;
     }
 
-
     @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public ModelAndView registration(){
+    public ModelAndView registrationPage(){
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
@@ -54,7 +52,7 @@ public class LoginController {
             modelAndView.setViewName("/registration.html");
         } else {
             user.setPharmacy(pharmacyService.findById(1));
-            userService.saveUser(user);
+            userService.createUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("/registration.html");
@@ -64,17 +62,15 @@ public class LoginController {
     }
 
     @RequestMapping(value="/pharmacist/home", method = RequestMethod.GET)
-    public ModelAndView home(){
+    public ModelAndView homePage(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+        modelAndView.addObject("userFullName", user.getName() + " " + user.getLastName());
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
         modelAndView.setViewName("pharmacist/home");
         return modelAndView;
     }
-
-
 }
 
 

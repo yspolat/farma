@@ -2,36 +2,106 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Admin Page</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+     <title>Contact Us - Brand</title>
+     <link rel="stylesheet" th:href="@{/user/bootstrap/bootstrap.min.css}">
+     <link rel="stylesheet" th:href="@{/user/css/Login-Form-Dark.css}">
+     <link rel="stylesheet" th:href="@{/user/css/Sidebar-Menu-1.css}">
+     <link rel="stylesheet" th:href="@{/user/css/Sidebar-Menu.css}">
+     <link rel="stylesheet" th:href="@{/user/css/smoothproducts.css}">
+     <link rel="stylesheet" th:href="@{/user/css/Header-Blue.css}">
+     <link rel="stylesheet" th:href="@{/user/fonts/fontawesome5-overrides.min.css}">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+ </head>
 
-<body>
-<div class="container">
+ <body>
+ <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+     <div class="container"><a class="navbar-brand logo" href="index.html" style="font-size: 27px;">&nbsp;<i class="fas fa-store" style="color: rgb(0,123,255);font-size: 27px;"></i>&nbsp;Farma</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+         <div
+                 class="collapse navbar-collapse" id="navcol-1">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item" role="presentation"><a class="nav-link active" href="home.html" style="color: rgb(0,123,255);">Home</a></li>
+                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(0,123,255);">FAQ</a></li>
+                 <li class="nav-item" role="presentation"><a class="nav-link" href="payment-page.html" style="color: rgb(0,123,255);">ABOUT US</a></li>
+                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="font-weight: bold;color: #000000;"><i class="fa fa-user-circle"></i>&nbsp;Yavuz SELIM POLAT</a></li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+ <main class="page contact-us-page">
+     <section class="clean-block clean-form dark" style="padding-bottom: 1px;">
+         <div class="row">
+             <div class="col">
+                 <div id="wrapper">
+                     <div id="sidebar-wrapper">
+                         <ul class="sidebar-nav">
+                             <li class="sidebar-brand"> </li>
+                             <li> <span class="text-uppercase" style="color: rgb(142,142,142);">Yavuz Selim Polat</span><a href="home.html" style="color: rgb(255,255,255);"><i class="fas fa-home" style="font-size: 15px;"></i>&nbsp; Home</a><a href="create-order"
+                                                                                                                                                                                                                                                   style="color: rgb(255,255,255);"><i class="fas fa-plus" style="font-size: 15px;"></i>&nbsp; Create Order</a><a href="my-orders.html" style="color: rgb(255,255,255);"><i class="fas fa-box-open" style="font-size: 15px;"></i>&nbsp; My Orders</a>
+                                 <a
+                                         style="color: rgb(255,255,255);" href="add-payment.html"><i class="far fa-credit-card" style="font-size: 15px;"></i>&nbsp; Payment</a><a href="#" style="color: rgb(255,255,255);"><i class="fas fa-user-cog" style="font-size: 15px;"></i>&nbsp; Settings</a><a href="#" style="color: rgb(255,255,255);"><i class="fas fa-sign-out-alt" style="font-size: 15px;"></i>&nbsp; Log-out</a></li>
+                             <li>
+                             </li>
+                             <li> </li>
+                         </ul>
+                     </div>
+                     <div class="page-content-wrapper">
+                         <div class="container-fluid" style="padding-top: 19px;"><a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars" style="color: #999999;"></i></a>
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div>
+                                         <h1>Home</h1>
+                                     </div>
+                                     <p></p>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
+                             <div class="row">
+                                 <div class="col" style="padding-top: 15px;">
+                                     <div class="card-group">
+                                         <div class="card"><span class="text-center" style="padding-left: 0px;padding-top: 15px;"><i class="fa fa-cart-plus bg-success" style="font-size: 116px;"></i></span>
+                                             <div class="card-body">
+                                                 <h4 class="card-title">Create Order</h4>
+                                                 <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="btn btn-primary" role="button"
+                                                                                                                                                                                                                                                  href="create-order.html" style="color: rgb(0,123,255);background-color: rgb(255,255,255);">Create</a></div>
+                                         </div>
+                                         <div class="card"><span class="text-center" style="padding-top: 15px;"><i class="fas fa-boxes bg-primary" style="font-size: 116px;"></i></span>
+                                             <div class="card-body">
+                                                 <h4 class="card-title">View Orders</h4>
+                                                 <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="btn btn-primary" role="button"
+                                                                                                                                                                                                                                                  href="my-orders.html" style="background-color: rgb(255,255,255);color: rgb(0,123,255);">View</a></div>
+                                         </div>
+                                         <div class="card"><span class="text-center" style="padding-top: 15px;"><i class="fas fa-money-check-alt bg-warning" style="font-size: 116px;"></i></span>
+                                             <div class="card-body">
+                                                 <h4 class="card-title">Enter Payment</h4>
+                                                 <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="btn btn-primary" role="button"
+                                                                                                                                                                                                                                                  href="payment-page.html" style="background-color: rgb(255,255,255);color: rgb(0,123,255);">Enter</a></div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+ </main>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+ <script src="/user/js/smoothproducts.min.js"></script>
+ <script src="/user/js/theme.js"></script>
+ <script src="/user/js/Sidebar-Menu.js"></script>
+ </body>
 
-    <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" name="registration"
-                type="Submit">Logout
-        </button>
-    </form>
-
-    <div class="panel-group" style="margin-top:40px">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span th:utext="${userName}"></span>
-            </div>
-            <div class="panel-body">
-                <img th:src="@{/images/beer.jpg}" class="img-responsive center-block" width="400" height="400"
-                     alt="Beer"/>
-            </div>
-            <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
-        </div>
-    </div>
-
-</div>
-</body>
-</html>
+ </html>

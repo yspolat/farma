@@ -1,9 +1,6 @@
 package com.it529.teamgy.pharmacyapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -34,6 +31,12 @@ public class User {
     @NotEmpty(message = "*Can't be blank")
     private String password;
 
+    @Transient
+    private String rePassword;
+
+    @Transient
+    private String newPassword;
+
     @Column(name = "name")
     @NotEmpty(message = "*Can't be blank")
     private String name;
@@ -45,6 +48,26 @@ public class User {
     @Column(name = "active")
     private int active;
 
+    // This is set Integer rather than int, because the primitive datatype int isn't nullable.
+    // Ref. https://stackoverflow.com/questions/51697485/can-not-set-int-field-to-null-value
+    @Column(name = "mobile_number")
+    private Long mobileNumber;
+
+    @Column(name = "address")
+    private String address;
+
+    @ManyToOne
+    @JoinColumn
+    private District district;
+
+    @ManyToOne
+    @JoinColumn
+    private Province province;
+
+    @ManyToOne
+    @JoinColumn
+    private Country country;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -52,6 +75,9 @@ public class User {
     @ManyToOne
     @JoinColumn
     private Pharmacy pharmacy;
+
+    @Transient
+    private String provinceId;
 
 }
 

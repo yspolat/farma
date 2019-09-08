@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("addressRepository")
-public interface  AddressRepository extends JpaRepository<Country, Integer> {
+@Repository("countryRepository")
+public interface CountryRepository extends JpaRepository<Country, Integer> {
     Country findById(int id);
 
     @Override

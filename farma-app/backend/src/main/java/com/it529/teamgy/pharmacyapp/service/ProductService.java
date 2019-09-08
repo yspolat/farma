@@ -2,9 +2,7 @@ package com.it529.teamgy.pharmacyapp.service;
 
 import com.it529.teamgy.pharmacyapp.model.PharmacyProduct;
 import com.it529.teamgy.pharmacyapp.model.Product;
-import com.it529.teamgy.pharmacyapp.model.Role;
 import com.it529.teamgy.pharmacyapp.repository.PharmacyProductRepository;
-import com.it529.teamgy.pharmacyapp.repository.PharmacyRepository;
 import com.it529.teamgy.pharmacyapp.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,6 @@ public class ProductService {
     private PharmacyProductRepository pharmacyProductRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-
     @Autowired
     public ProductService(@Qualifier("productRepository") ProductRepository productRepository, PharmacyProductRepository pharmacyProductRepository){
         this.productRepository = productRepository;
@@ -29,17 +26,18 @@ public class ProductService {
     }
 
     public Product findById(int id) {
+        LOGGER.info("UserService:findById:" + id);
         return productRepository.findById(id);
     }
 
     public List<Product> findAll () {
+        LOGGER.info("UserService:findAll:"+productRepository.findAll().size());
         return productRepository.findAll();
     }
 
     public PharmacyProduct createNewProduct(PharmacyProduct pharmacyProduct) {
-
-        LOGGER.info("Save User");
-
+        LOGGER.info("UserService:createNewProduct:pharmacyProductName:"+pharmacyProduct.getProduct().getProduct_name()+" quantity:"
+                + pharmacyProduct.getQuantity() + " price:" +pharmacyProduct.getPrice());
         return pharmacyProductRepository.save(pharmacyProduct);
     }
 }
