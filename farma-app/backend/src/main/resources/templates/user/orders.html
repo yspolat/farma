@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Create Order - Farma</title>
+    <title>Orders - Farma</title>
     <link rel="stylesheet" th:href="@{/user/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/user/css/Login-Form-Dark.css}">
     <link rel="stylesheet" th:href="@{/user/css/Sidebar-Menu-1.css}">
@@ -28,10 +28,10 @@
         <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="home" style="color: rgb(0,0,0);">Home</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="faq" style="color: rgb(0,0,0);">FAQ</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="about" style="color: rgb(0,0,0);">ABOUT US</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="settings" style="font-weight: bold;color: rgb(0,123,255);"><i class="fa fa-user-circle"></i>&nbsp;Yavuz SELIM POLAT</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="home" style="color: #000000;">Home</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="faq" style="color: #000000;">FAQ</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="about" style="color: #000000;">ABOUT US</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="settings" style="font-weight: bold;color: #007bff;"><i class="fa fa-user-circle"></i>&nbsp;Yavuz SELIM POLAT</a></li>
             </ul>
         </div>
     </div>
@@ -56,40 +56,45 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div>
-                                        <h1 style="font-size: 30px;">Create Order<br></h1>
+                                        <h1 style="font-size: 30px;">My Orders</h1>
                                     </div>
-                                    <p style="font-size: 13px;">New order with prescription code</p>
+                                    <p style="font-size: 13px;">Track your orders</p>
                                 </div>
                             </div>
                         </div>
                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
-                            <form>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title" style="color: rgb(0,123,255);">Prescription Code</h4>
-                                        <h6 class="text-muted card-subtitle mb-2">Mandatory to proceed</h6>
-                                        <p class="card-text" style="font-size: 12px;">You need to enter the prescription code and then will need to enter a payment method. Otherwise, once you receive the prescription code from your doctor, enter it here and ensure that entered valid payment method.
-                                            <br>
-                                        </p>
-                                        <p class="card-text" style="font-size: 12px;color: rgb(79,81,82);">For more information about the questions and possible solutions please read the following&nbsp;<a href="https://bootstrapstudio.io/app/?shell=4#">article</a>
-                                            <br>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input class="form-control" type="hidden">
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" required="" minlength="7" maxlength="7">
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-outline-primary" type="submit">Enter</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            <div class="row">
+                                <div class="col-md-12 offset-xl-10">
+                                    <div></div><a class="btn btn-outline-primary" role="button" href="create-order"><i class="fas fa-plus"></i>Create Order</a></div>
+                            </div>
+                        </div>
+                        <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Status</th>
+                                        <th>Grand Total</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Cell 1</td>
+                                        <td>Cell 2</td>
+                                        <td>Cell 2</td>
+                                        <td><a href="#"><i class="far fa-comment-alt" style="font-size: 18px;color: #007bff;"></i></a><span>&nbsp; &nbsp;</span><a href="#"><i class="fas fa-search" style="font-size: 18px;color: #007bff;"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cell 3</td>
+                                        <td>Cell 2</td>
+                                        <td>Cell 4</td>
+                                        <td><a href="#"><i class="far fa-comment-alt" style="font-size: 18px;color: #007bff;"></i></a><span>&nbsp; &nbsp;</span><a href="#"><i class="fas fa-search" style="font-size: 18px;color: #007bff;"></i></a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

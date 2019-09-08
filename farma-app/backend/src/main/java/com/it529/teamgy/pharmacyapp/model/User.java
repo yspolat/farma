@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -75,6 +76,9 @@ public class User {
     @ManyToOne
     @JoinColumn
     private Pharmacy pharmacy;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PaymentMethod> paymentMethods;
 
     @Transient
     private String provinceId;
