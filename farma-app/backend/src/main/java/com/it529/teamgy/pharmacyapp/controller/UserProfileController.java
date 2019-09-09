@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -35,14 +36,14 @@ public class UserProfileController {
 
     @RequestMapping(value = {"/user/profile"}, method = RequestMethod.GET)
     public ModelAndView profilePage(){
+        LOGGER.info("UserProfileController:profilePage:");
         ModelAndView modelAndView = new ModelAndView();
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         List <Province> provinces = addressService.findAllProvinces();
         List<Country> countries =  addressService.findAllCountry();
 
-        modelAndView.addObject("userNameLast", user.getName() + " " + user.getLastName());
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
         modelAndView.addObject("userEmail", user.getEmail());
         modelAndView.addObject("countries", countries);
         modelAndView.addObject("provinces", provinces);
@@ -54,6 +55,11 @@ public class UserProfileController {
     public ModelAndView homePage(){
         LOGGER.info("UserProfileController:homePage:");
         ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
+
         return modelAndView;
     }
 
@@ -61,14 +67,75 @@ public class UserProfileController {
     public ModelAndView createPaymentMethodPage(){
         LOGGER.info("UserProfileController:createPaymentMethodPage:");
         ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        List<PaymentMethod> paymentMethods = paymentMethodService.findAllByUserId(user.getId());
+
+        modelAndView.addObject("paymentMethods", paymentMethods);
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
+
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/user/edit-payment"}, method = RequestMethod.GET)
-    public ModelAndView createEditPaymentMethodPage(){
-        LOGGER.info("UserProfileController:createEditPaymentMethodPage:");
+    @RequestMapping(value="/user/payment/edit", method = RequestMethod.POST)
+    public ModelAndView createEditPaymentMethodPage (@RequestParam(name="paymentMethodId")String paymentMethodId) {
+
+        LOGGER.info("UserProfileController:createEditPaymentMethodPage:paymentMethodId:"+ paymentMethodId);
+
         ModelAndView modelAndView = new ModelAndView();
+        PaymentMethod paymentMethod = paymentMethodService.findById(Integer.valueOf(paymentMethodId));
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        modelAndView.addObject("paymentMethod", paymentMethod);
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
+
+        LOGGER.info("UserProfileController:createNewPaymentMethod:paymentMethod:cardOwner" + paymentMethod.getCardOwner() +
+                ":expDateMonth:" + paymentMethod.getExpirationMonth() + ":expDateYear:" + paymentMethod.getExpirationYear()
+                + ":creditCardNumber:" + paymentMethod.getCreditCardNumber() + ":cardSecurityCode:" + paymentMethod.getCardSecurityCode()
+                + ":userId"+paymentMethod.getUser().getId());
+
+        modelAndView.setViewName("/user/edit-payment.html");
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/user/payment/save", method = RequestMethod.POST)
+    public String editSavePaymentMethod(@RequestParam(name="paymentMethodId")String paymentMethodId,
+                                        @RequestParam(name="cardSecurityCode")String cardSecurityCode,
+                                        @RequestParam(name="expirationMonth")String expirationMonth,
+                                        @RequestParam(name="expirationYear")String expirationYear,
+                                        @RequestParam(name="creditCardNumber")String creditCardNumber,
+                                        @RequestParam(name="cardOwner")String cardOwner) {
+
+        LOGGER.info("UserProfileController:createEditPaymentMethodPage:paymentMethodId:"+ paymentMethodId);
+        PaymentMethod paymentMethod = paymentMethodService.getOne(Integer.valueOf(paymentMethodId));
+        paymentMethod.setCardOwner(cardOwner);
+        paymentMethod.setCardSecurityCode(Integer.valueOf(cardSecurityCode));
+        paymentMethod.setExpirationMonth(Integer.valueOf(expirationMonth));
+        paymentMethod.setExpirationYear(Integer.valueOf(expirationYear));
+        paymentMethod.setCreditCardNumber(cardOwner);
+        paymentMethod.setCreditCardNumber(creditCardNumber);
+
+        LOGGER.info("UserProfileController:editSavePaymentMethod:paymentMethod:cardOwner" + paymentMethod.getCardOwner() +
+                ":expDateMonth:" + paymentMethod.getExpirationMonth() + ":expDateYear:" + paymentMethod.getExpirationYear()
+                + ":creditCardNumber:" + paymentMethod.getCreditCardNumber() + ":cardSecurityCode:" + paymentMethod.getCardSecurityCode()
+                + ":userId"+paymentMethod.getUser().getId());
+
+        paymentMethodService.update(paymentMethod);
+
+        return "redirect:/user/payment";
+    }
+
+
+    @RequestMapping(value="/user/payment/delete", method = RequestMethod.POST)
+    public String deletePaymentMethod (@RequestParam(name="paymentMethodId")String paymentMethodId) {
+
+        LOGGER.info("UserProfileController:deletePaymentMethod:paymentMethodId:"+ paymentMethodId);
+        paymentMethodService.deleteById(Integer.valueOf(paymentMethodId));
+
+        return "redirect:/user/payment";
     }
 
     @RequestMapping(value = {"/user/add-payment"}, method = RequestMethod.GET)
@@ -105,7 +172,7 @@ public class UserProfileController {
                                 + ":userId"+paymentMethod.getUser().getId());
             paymentMethodService.createNewPaymentMethod(paymentMethod);
             //modelAndView.addObject("successMessage", "PaymentMethod successfully has been added ");
-            modelAndView.setViewName("redirect:/user/home");
+            modelAndView.setViewName("redirect:/user/payment");
 
         }
         return modelAndView;

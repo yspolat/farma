@@ -4,11 +4,19 @@ import com.it529.teamgy.pharmacyapp.model.PaymentMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository("paymentMethodRepository")
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod,Integer> {
 
+    PaymentMethod findById(int id);
+
     @Override
-    Optional<PaymentMethod> findById(Integer integer);
+    PaymentMethod getOne(Integer id);
+
+    List<PaymentMethod> findAllByUserId(int userId);
+
+    @Override
+    void deleteById(Integer integer);
+
 }

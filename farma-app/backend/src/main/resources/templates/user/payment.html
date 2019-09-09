@@ -20,6 +20,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <style>
+        .clean-block.clean-form form {
+            border-top: 0px solid #5ea4f3;
+            background-color: #fff;
+            margin: unset;
+            padding: 0px;
+            box-shadow: 0 0px 0px rgba(0,0,0,.075);
+        }
+    </style>
 </head>
 
 <body>
@@ -31,7 +40,7 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" href="home" style="color: #000000;">Home</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="faq" style="color: #000000;">FAQ</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="about" style="color: #000000;">ABOUT US</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="settings" style="font-weight: bold;color: #007bff;"><i class="fa fa-user-circle"></i>&nbsp;Yavuz SELIM POLAT</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="settings" style="font-weight: bold;color: #007bff;"><i class="fa fa-user-circle"></i>&nbsp;<span th:text="${userFullName}"></span></a></li>
             </ul>
         </div>
     </div>
@@ -63,35 +72,39 @@
                             </div>
                         </div>
                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
-                            <div class="alert alert-light text-primary border-info" role="alert"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;"><strong>&nbsp;</strong>We noticed that you don't have a payment method set up. To add new, just click above new button.</span></div>
+                            <div class="alert alert-light text-primary border-info" th:if="${paymentMethods.isEmpty()}" role="alert"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;" th:if="${paymentMethods != null}"><strong>&nbsp;</strong>We noticed that you don't have a payment method set up. To add new, just click above new button.</span></div>
                             <div class="row">
                                 <div class="col-md-12 offset-xl-10">
                                     <div></div><a class="btn btn-outline-primary" role="button" href="add-payment"><i class="fa fa-plus"></i>New</a></div>
                             </div>
                         </div>
                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
-                            <div class="table-responsive">
+                            <div class="table-responsive" th:if="${!paymentMethods.isEmpty()}">
                                 <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Owner Name</th>
                                         <th>Credit Card Number</th>
-                                        <th>Expiration Date</th>
+                                        <th>Expiration Month</th>
+                                        <th>Expiration Year</th>
+
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>Cell 1</td>
-                                        <td>Cell 2</td>
-                                        <td>Cell 2</td>
-                                        <td><a href="edit-payment"><i class="fas fa-pencil-alt" style="font-size: 18px;"></i></a><span>&nbsp; &nbsp;</span><a href="delete-payment"><i class="fas fa-times" style="font-size: 18px;"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cell 3</td>
-                                        <td>Cell 2</td>
-                                        <td>Cell 4</td>
-                                        <td><a href="edit-payment"><i class="fas fa-pencil-alt" style="font-size: 18px;"></i></a><span>&nbsp; &nbsp;</span><a href="delete-payment"><i class="fas fa-times" style="font-size: 18px;"></i></a></td>
+                                    <tr th:each="paymentMethod : ${paymentMethods}">
+                                        <td><span th:text="${paymentMethod.cardOwner}"></span></td>
+                                        <td><span th:text="${paymentMethod.creditCardNumber}"></span></td>
+                                        <td><span th:text="${paymentMethod.expirationMonth}"></span></td>
+                                        <td><span th:text="${paymentMethod.expirationYear}"></span></td>
+                                        <td>
+                                            <form method="POST" th:action="@{/user/payment/edit(paymentMethodId=${paymentMethod.id})}">
+                                                <a href="javascript:;" onclick="parentNode.submit();"><i class="fas fa-pencil-alt" style="font-size: 18px;"></i></a><span>&nbsp; &nbsp;</span>
+                                            </form>
+                                            <form method="POST" th:action="@{/user/payment/delete(paymentMethodId=${paymentMethod.id})}">
+                                                <a href="javascript:;" onclick="parentNode.submit();"><i class="fas fa-times" style="font-size: 18px;"></i></a>
+                                            </form>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

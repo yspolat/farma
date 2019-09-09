@@ -84,7 +84,8 @@
                                                     <label style="font-size: 14px;">Expiration Date</label>
                                                     <select class="custom-select custom-select-sm" th:field="*{expirationMonth}" required="">
                                                         <optgroup label="Month">
-                                                            <option value="1" selected="">January</option>
+                                                            <option disabled="true" selected="selected" value="">Select</option>
+                                                            <option value="1">January</option>
                                                             <option value="2">February</option>
                                                             <option value="3">March</option>
                                                             <option value="4">April</option>
@@ -103,6 +104,7 @@
                                                     <label class="invisible">Label</label>
                                                     <select class="custom-select custom-select-sm" th:field="*{expirationYear}" required="">
                                                         <optgroup label="Year">
+                                                            <option disabled="true" selected="selected" value="">Select</option>
                                                             <option value="2019">2019</option>
                                                             <option value="2020">2020</option>
                                                             <option value="2021">2021</option>

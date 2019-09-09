@@ -17,22 +17,22 @@ public class PaymentMethod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "cardOwner")
     private String cardOwner;
 
     @Column(name = "expirationMonth")
-    private int expirationMonth;
+    private Integer expirationMonth;
 
     @Column(name = "expirationYear")
-    private int expirationYear;
+    private Integer expirationYear;
 
     @Column(name = "creditCardNumber")
     private String creditCardNumber;
 
     @Column(name = "cardSecurityCode")
-    private Long cardSecurityCode;
+    private Integer cardSecurityCode;
 
     @ManyToOne
     @JoinColumn
