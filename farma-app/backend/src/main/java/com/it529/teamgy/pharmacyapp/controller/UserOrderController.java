@@ -1,11 +1,12 @@
 package com.it529.teamgy.pharmacyapp.controller;
 
 import com.it529.teamgy.pharmacyapp.model.*;
-import com.it529.teamgy.pharmacyapp.rest.consume.Quote;
+import com.it529.teamgy.pharmacyapp.rest.consume.ResponseDummyAPI;
 import com.it529.teamgy.pharmacyapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +25,9 @@ public class UserOrderController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private Environment env;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -81,10 +84,9 @@ public class UserOrderController {
 
     @RequestMapping(value = {"/user/create-order"}, method = RequestMethod.GET)
     public ModelAndView createCreateOrderPage(){
+
         LOGGER.info("UserProfileController:createCreateOrderPage:");
         UserOrder userOrder = new UserOrder();
-        userOrder.setPrescriptionStatus("Invalid"); // temp TODO: will be deleted
-        getMedicines();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userOrder", userOrder);
 
@@ -95,6 +97,10 @@ public class UserOrderController {
     public ModelAndView createStartOrder(@Valid UserOrder userOrder, BindingResult bindingResult) {
 
         LOGGER.info("UserOrderController:createStartOrder:");
+        LOGGER.info("UserOrderController:createStartOrder:prescriptionCode" + userOrder.getPrescriptionCode());
+        ResponseDummyAPI responseDummyAPI = getMedicinesFromAPI(userOrder.getPrescriptionCode());
+        userOrder.setPrescriptionStatus(responseDummyAPI.getMessage());
+
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             LOGGER.error("UserOrderController:createStartOrder:bindingResultHasErrors");
@@ -104,11 +110,12 @@ public class UserOrderController {
         else {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
-            LOGGER.info("UserOrderController:createStartOrder:prescriptionCode" + userOrder.getPrescriptionCode());
-            //modelAndView.addObject("successMessage", "PaymentMethod successfully has been added ");
-            modelAndView.setViewName("redirect:/proceed-create-order");
 
+            //modelAndView.addObject("successMessage", "PaymentMethod successfully has been added ");
+            //modelAndView.setViewName("redirect:/proceed-create-order"); TODO: will be commented out
+            modelAndView.setViewName("redirect:/user/create-order");
         }
+
         return modelAndView;
     }
 
@@ -123,12 +130,14 @@ public class UserOrderController {
         return null;
     }
 
-    private ArrayList<String> getMedicines()
+    private ResponseDummyAPI getMedicinesFromAPI(String prescriptionCode)
     {
+        String DUMMY_API_URL = env.getProperty("DUMMY_API_URL");
+        String API_URL = DUMMY_API_URL + prescriptionCode;
         RestTemplate restTemplate = new RestTemplate();
-        Quote quote = restTemplate.getForObject("http://localhost:8080/service/ministerOfHealthTurkey?prescriptionCode=B8JC12", Quote.class);
-        LOGGER.info(quote.toString());
+        ResponseDummyAPI responseDummyAPI = restTemplate.getForObject(API_URL, ResponseDummyAPI.class);
+        LOGGER.info("ministryOfHealthTurkeyAPI:message" + responseDummyAPI.getMessage() + ":medicines" + responseDummyAPI.getMedicines());
 
-        return null;
+        return responseDummyAPI;
     }
 }

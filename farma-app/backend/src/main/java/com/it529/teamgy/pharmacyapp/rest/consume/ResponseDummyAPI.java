@@ -1,22 +1,20 @@
 package com.it529.teamgy.pharmacyapp.rest.consume;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.it529.teamgy.pharmacyapp.rest.Medicine;
+import com.it529.teamgy.pharmacyapp.rest.produce.Medicine;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Quote {
+public class ResponseDummyAPI {
 
     public String message;
 
-    @JsonSerialize(using = ModelSerializer.class)
+    @JsonSerialize(using = MedicineSerializer.class)
     public List<Medicine> medicines;
 
-    public Quote() {
+    public ResponseDummyAPI() {
 
     }
 

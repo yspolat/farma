@@ -1,4 +1,4 @@
-package com.it529.teamgy.pharmacyapp.rest;
+package com.it529.teamgy.pharmacyapp.rest.produce;
 
 public class Medicine {
 
@@ -19,5 +19,13 @@ public class Medicine {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

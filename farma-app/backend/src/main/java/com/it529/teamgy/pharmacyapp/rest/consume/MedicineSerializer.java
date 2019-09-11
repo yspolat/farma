@@ -4,13 +4,15 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.it529.teamgy.pharmacyapp.rest.Medicine;
-import org.springframework.ui.Model;
+import com.it529.teamgy.pharmacyapp.rest.produce.Medicine;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ModelSerializer extends JsonSerializer<List<Medicine>> {
+public class MedicineSerializer extends JsonSerializer<List<Medicine>> {
+
+    // This class and below line are needed for serialize list of medicines that comes from API, otherwise it'll throw error.
+    // @JsonSerialize(using = MedicineSerializer.class)
 
     @Override
     public void serialize(List<Medicine> value, JsonGenerator jgen,

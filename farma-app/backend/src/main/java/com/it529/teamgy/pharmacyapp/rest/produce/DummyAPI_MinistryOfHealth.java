@@ -1,4 +1,4 @@
-package com.it529.teamgy.pharmacyapp.rest;
+package com.it529.teamgy.pharmacyapp.rest.produce;
 
 import com.it529.teamgy.pharmacyapp.model.Product;
 import com.it529.teamgy.pharmacyapp.service.ProductService;
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class DummyHealthMinisterController {
+public class DummyAPI_MinistryOfHealth {
 
     @Autowired
     ProductService productService;
 
-    @RequestMapping("/service/ministerOfHealthTurkey")
-    public Response_API_Obj medicine(@RequestParam(value="prescriptionCode") String prescriptionCode) {
+    @RequestMapping("/service/ministryOfHealthTurkey")
+    public Dummy_API_Obj medicine(@RequestParam(value="prescriptionCode") String prescriptionCode) {
 
         // ************************** //
         // Test prescription codes:
@@ -27,7 +27,7 @@ public class DummyHealthMinisterController {
         // Any code is not valid
         // ************************** //
 
-        Response_API_Obj responseApi_obj =  new Response_API_Obj();
+        Dummy_API_Obj responseApi_obj =  new Dummy_API_Obj();
 
         if (prescriptionCode.equals("B8JC12")){
             responseApi_obj.setMedicines(pickProductRandomly());
