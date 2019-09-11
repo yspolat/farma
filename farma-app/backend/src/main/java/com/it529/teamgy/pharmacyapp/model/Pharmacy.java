@@ -22,4 +22,7 @@ public class Pharmacy {
 
     @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL)
     private List<User> users;
+
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL)
+    private List<UserOrder> userOrders;
 }

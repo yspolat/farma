@@ -3,7 +3,6 @@ package com.it529.teamgy.pharmacyapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data

@@ -1,6 +1,5 @@
 package com.it529.teamgy.pharmacyapp.repository;
 
-import com.it529.teamgy.pharmacyapp.model.Country;
 import com.it529.teamgy.pharmacyapp.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +13,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Override
     Page<Product> findAll(Pageable pageable);
+
 }

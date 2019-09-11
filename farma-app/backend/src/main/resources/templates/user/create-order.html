@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
-                            <form>
+                            <form style="height: 625px;" autocomplete="off" action="#" th:action="@{/user/create-order}" th:object="${userOrder}" method="post" class="form-horizontal" role="form">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title" style="color: rgb(0,123,255);">Prescription Code</h4>
@@ -82,7 +82,7 @@
                                             <input class="form-control" type="hidden">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control" type="text" required="" minlength="7" maxlength="7">
+                                            <input class="form-control" type="text" th:field="*{prescriptionCode}" required="" minlength="7" maxlength="7">
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-outline-primary" type="submit">Enter</button>

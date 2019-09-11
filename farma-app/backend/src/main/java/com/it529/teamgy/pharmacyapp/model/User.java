@@ -83,5 +83,8 @@ public class User {
     @Transient
     private String provinceId;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserOrder> userOrders;
+
 }
 

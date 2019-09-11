@@ -16,7 +16,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String product_name;
+
+    private String product_code; // Ministry of Health Code
 
     @Column(name = "category")
     @NotEmpty(message = "*Can't be blank")
