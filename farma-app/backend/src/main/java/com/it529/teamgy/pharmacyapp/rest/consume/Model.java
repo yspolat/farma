@@ -1,18 +1,17 @@
-package com.it529.teamgy.pharmacyapp.rest;
+package com.it529.teamgy.pharmacyapp.rest.consume;
+
+
+import com.it529.teamgy.pharmacyapp.rest.Medicine;
 
 import java.util.List;
 
-public class Response_API_Obj {
-    //private HttpStatus status;
+public class Model {
     private String message;
     private List<Medicine> medicines;
+    // getters / setters
 
-    public Response_API_Obj(String message, List<Medicine> medicines) {
-        this.message = message;
-        this.medicines = medicines;
-    }
 
-    public Response_API_Obj() {
+    public Model() {
     }
 
     public String getMessage() {

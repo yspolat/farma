@@ -1,6 +1,7 @@
 package com.it529.teamgy.pharmacyapp.controller;
 
 import com.it529.teamgy.pharmacyapp.model.*;
+import com.it529.teamgy.pharmacyapp.rest.consume.Quote;
 import com.it529.teamgy.pharmacyapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +83,8 @@ public class UserOrderController {
     public ModelAndView createCreateOrderPage(){
         LOGGER.info("UserProfileController:createCreateOrderPage:");
         UserOrder userOrder = new UserOrder();
-        //getMedicines();
+        userOrder.setPrescriptionStatus("Invalid"); // temp TODO: will be deleted
+        getMedicines();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userOrder", userOrder);
 
@@ -123,11 +125,9 @@ public class UserOrderController {
 
     private ArrayList<String> getMedicines()
     {
-        final String uri = "http://localhost:8080/dummy/health-minister-service";
-
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        System.out.println(result);
+        Quote quote = restTemplate.getForObject("http://localhost:8080/service/ministerOfHealthTurkey?prescriptionCode=B8JC12", Quote.class);
+        LOGGER.info(quote.toString());
 
         return null;
     }

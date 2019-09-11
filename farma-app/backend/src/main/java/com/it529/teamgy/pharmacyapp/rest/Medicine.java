@@ -1,13 +1,16 @@
 package com.it529.teamgy.pharmacyapp.rest;
 
-public class Medicine_Entity {
+public class Medicine {
 
     private  String code;
     private  String name;
 
-    public Medicine_Entity(String code, String name) {
+    public Medicine(String code, String name) {
         this.code = code;
         this.name = name;
+    }
+
+    public Medicine() {
     }
 
     public String getCode() {

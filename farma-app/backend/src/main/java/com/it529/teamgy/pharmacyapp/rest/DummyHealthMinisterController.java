@@ -16,7 +16,7 @@ public class DummyHealthMinisterController {
     @Autowired
     ProductService productService;
 
-    @RequestMapping("/ministerOfHealthTurkey")
+    @RequestMapping("/service/ministerOfHealthTurkey")
     public Response_API_Obj medicine(@RequestParam(value="prescriptionCode") String prescriptionCode) {
 
         // ************************** //
@@ -30,30 +30,30 @@ public class DummyHealthMinisterController {
         Response_API_Obj responseApi_obj =  new Response_API_Obj();
 
         if (prescriptionCode.equals("B8JC12")){
-            responseApi_obj.setMedicineEntityList(pickProductRandomly());
+            responseApi_obj.setMedicines(pickProductRandomly());
             responseApi_obj.setMessage("Valid");
         } else if (prescriptionCode.equals("J3DX15")){
-            responseApi_obj.setMedicineEntityList(null);
+            responseApi_obj.setMedicines(null);
             responseApi_obj.setMessage("Has exceeded the number of times it can be used");
         } else if (prescriptionCode.equals("K6FX46")) {
-            responseApi_obj.setMedicineEntityList(null);
+            responseApi_obj.setMedicines(null);
             responseApi_obj.setMessage("Expired");
         } else {
-            responseApi_obj.setMedicineEntityList(null);
+            responseApi_obj.setMedicines(null);
             responseApi_obj.setMessage("Invalid");
         }
         return responseApi_obj;
     }
 
-    public List<Medicine_Entity> pickProductRandomly(){
+    public List<Medicine> pickProductRandomly(){
 
         List<Product> allProductList = productService.findAll();
-        List<Medicine_Entity> medicine_entities = new ArrayList<>();
+        List<Medicine> medicine_entities = new ArrayList<>();
 
         long number = 0;
         for (Product product: allProductList){
             if (number == 0) {
-                medicine_entities.add(new Medicine_Entity(product.getProduct_code(),product.getProduct_name()));
+                medicine_entities.add(new Medicine(product.getProduct_code(),product.getProduct_name()));
             }
             number = Math.round( Math.random());
         }

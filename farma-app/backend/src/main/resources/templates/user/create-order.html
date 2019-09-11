@@ -63,7 +63,14 @@
                             </div>
                         </div>
                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
-                            <form style="height: 625px;" autocomplete="off" action="#" th:action="@{/user/create-order}" th:object="${userOrder}" method="post" class="form-horizontal" role="form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="alert alert-light text-primary border-info" th:if="${userOrder.prescriptionStatus == 'Invalid'}" role="alert" style="width: 432px;"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;"><strong>&nbsp;</strong>Presciption Code is invalid, please validate it and re-try.</span></div>
+                                    <div class="alert alert-light text-primary border-info" th:if="${userOrder.prescriptionStatus == 'Exceed'}" role="alert" style="width: 500px;"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;"><strong>&nbsp;</strong>Presciption Code as exceeded the number of times it can be used.&nbsp;</span></div>
+                                    <div class="alert alert-light text-primary border-info" th:if="${userOrder.prescriptionStatus == 'Expired'}" role="alert" style="width: 409px;"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;"><strong>&nbsp;</strong>Presciption Code has expired, you shall not proceed.</span></div>
+                                </div>
+                            </div>
+                            <form autocomplete="off" style="height: 409px;" action="#" th:action="@{/user/create-order}" th:object="${userOrder}" method="post" class="form-horizontal" role="form">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title" style="color: rgb(0,123,255);">Prescription Code</h4>

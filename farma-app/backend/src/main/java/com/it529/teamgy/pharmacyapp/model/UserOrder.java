@@ -42,4 +42,7 @@ public class UserOrder {
     private List<OrderItem> orderItems;
 
     private String prescriptionCode;
+
+    @Transient
+    private String prescriptionStatus;
 }
