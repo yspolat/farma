@@ -1,7 +1,6 @@
 package com.it529.teamgy.pharmacyapp.model;
 
 import lombok.*;
-import org.hibernate.criterion.Order;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -22,7 +21,8 @@ public class UserOrder {
 
     private boolean submitted; // yes or no
 
-    private Date orderDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date orderDate;
 
     private String orderStatus;
 
@@ -43,6 +43,5 @@ public class UserOrder {
 
     private String prescriptionCode;
 
-    @Transient
     private String prescriptionStatus;
 }

@@ -25,4 +25,16 @@ public class Pharmacy {
 
     @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL)
     private List<UserOrder> userOrders;
+
+    @ManyToOne
+    @JoinColumn
+    private District district;
+
+    @ManyToOne
+    @JoinColumn
+    private Province province;
+
+    @ManyToOne
+    @JoinColumn
+    private Country country;
 }

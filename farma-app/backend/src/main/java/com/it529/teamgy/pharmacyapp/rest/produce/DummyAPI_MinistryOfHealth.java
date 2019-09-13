@@ -21,21 +21,21 @@ public class DummyAPI_MinistryOfHealth {
 
         // ************************** //
         // Test prescription codes:
-        // B8JC12 : Valid
-        // J3DX15 : Used before
-        // K6FX46 : Expire
+        // B8JC563 : Valid
+        // J3DX151 : Used before
+        // K6FX468 : Expire
         // Any code is not valid
         // ************************** //
 
         Dummy_API_Obj responseApi_obj =  new Dummy_API_Obj();
 
-        if (prescriptionCode.equals("B8JC12")){
+        if (prescriptionCode.equals("B8JC563")){
             responseApi_obj.setMedicines(pickProductRandomly());
             responseApi_obj.setMessage("Valid");
-        } else if (prescriptionCode.equals("J3DX15")){
+        } else if (prescriptionCode.equals("J3DX151")){
             responseApi_obj.setMedicines(null);
-            responseApi_obj.setMessage("Has exceeded the number of times it can be used");
-        } else if (prescriptionCode.equals("K6FX46")) {
+            responseApi_obj.setMessage("Exceed");
+        } else if (prescriptionCode.equals("K6FX468")) {
             responseApi_obj.setMedicines(null);
             responseApi_obj.setMessage("Expired");
         } else {

@@ -29,4 +29,7 @@ public class District {
     @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
     private List<User> users;
 
+    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
+    private List<Pharmacy> pharmacies;
+
 }

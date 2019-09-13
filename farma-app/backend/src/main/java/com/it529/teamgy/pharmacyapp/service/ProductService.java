@@ -32,6 +32,12 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    public Product findByProduct_code(String pcode){
+        LOGGER.info("ProductService:findByProduct_code:" + pcode);
+        return productRepository.findByProduct_code(pcode);
+    }
+
+
     public List<Product> findAll () {
         LOGGER.info("ProductService:findAll:"+productRepository.findAll().size());
         return productRepository.findAll();

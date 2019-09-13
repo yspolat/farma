@@ -4,9 +4,14 @@ import com.it529.teamgy.pharmacyapp.model.Pharmacy;
 import com.it529.teamgy.pharmacyapp.model.PharmacyProduct;
 import com.it529.teamgy.pharmacyapp.model.Product;
 import com.it529.teamgy.pharmacyapp.repository.PharmacyProductRepository;
+import com.it529.teamgy.pharmacyapp.repository.PharmacyRepository;
+import com.it529.teamgy.pharmacyapp.repository.RoleRepository;
+import com.it529.teamgy.pharmacyapp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +30,27 @@ public class PharmacyProductService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
+    @Autowired
+    public PharmacyProductService(@Qualifier("pharmacyProductRepository") PharmacyProductRepository pharmacyProductRepository) {
+        this.pharmacyProductRepository = pharmacyProductRepository;
+    }
+
     public PharmacyProduct findById(int id) {
         LOGGER.info("PharmacyProduct:findById:" + id);
         return pharmacyProductRepository.findById(id);
     }
 
+    public PharmacyProduct findByProduct_Id(int productId){
+        LOGGER.info("PharmacyProduct:findByProduct_Id:" + productId);
+        return pharmacyProductRepository.findByProduct_Id(productId);
+
+    }
+
+    public PharmacyProduct findByProduct_IdAndPharmacyId(int productId, int pharmacyId){
+        LOGGER.info("PharmacyProduct:findByProduct_IdAndPharmacyId:productId" + productId + "pharmacyId" + pharmacyId);
+        return pharmacyProductRepository.findByProduct_IdAndPharmacyId(productId,pharmacyId);
+    }
+    
     public PharmacyProduct getOne(Integer id){
         LOGGER.info("PharmacyProduct:getOne:" + id);
         return pharmacyProductRepository.getOne(id);

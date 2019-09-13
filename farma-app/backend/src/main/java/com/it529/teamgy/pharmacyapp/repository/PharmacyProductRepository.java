@@ -21,6 +21,10 @@ public interface PharmacyProductRepository extends JpaRepository<PharmacyProduct
     @Override
     PharmacyProduct getOne(Integer id);
 
+    PharmacyProduct findByProduct_Id(int id);
+
+    PharmacyProduct findByProduct_IdAndPharmacyId(int productId, int pharmacyId);
+
     List<PharmacyProduct> findAllByPharmacyId(int pharmacyId);
 
     @Query("SELECT p FROM PharmacyProduct p WHERE p.quantity = 0")

@@ -28,4 +28,7 @@ public class Province {
     @OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
     private List<User> users;
 
+    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
+    private List<Pharmacy> pharmacies;
+
 }

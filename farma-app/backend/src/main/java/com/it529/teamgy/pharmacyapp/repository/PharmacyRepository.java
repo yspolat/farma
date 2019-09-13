@@ -5,10 +5,15 @@ import com.it529.teamgy.pharmacyapp.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository("pharmacyRepository")
 public interface PharmacyRepository extends JpaRepository<Pharmacy, Integer> {
     Pharmacy findById(int id);
+
+    List<Pharmacy> findAll();
+
+    List<Pharmacy> findAllByCountryIdAndDistrictIdAndProvinceId(Long countryId, Long districtId, Long provinceId);
 
 }

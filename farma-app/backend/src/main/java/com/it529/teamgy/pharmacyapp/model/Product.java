@@ -19,7 +19,7 @@ public class Product {
 
     private String product_name;
 
-    private String product_code; // Ministry of Health Code
+    private String product_code; // Ministry of Health Medicine Code
 
     @Column(name = "category")
     @NotEmpty(message = "*Can't be blank")

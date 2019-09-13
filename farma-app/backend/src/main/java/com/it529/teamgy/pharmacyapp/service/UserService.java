@@ -1,6 +1,5 @@
 package com.it529.teamgy.pharmacyapp.service;
 
-import com.it529.teamgy.pharmacyapp.model.PharmacyProduct;
 import com.it529.teamgy.pharmacyapp.model.Role;
 import com.it529.teamgy.pharmacyapp.model.User;
 import com.it529.teamgy.pharmacyapp.repository.RoleRepository;

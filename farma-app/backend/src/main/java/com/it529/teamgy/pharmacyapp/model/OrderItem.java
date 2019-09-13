@@ -22,6 +22,8 @@ public class OrderItem {
 
     private BigDecimal price;
 
+    private String medicine_code;
+
     @ManyToOne
     private UserOrder userOrder;
 

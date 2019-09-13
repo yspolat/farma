@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("pharmacyService")
 
 public class PharmacyService {
@@ -19,6 +21,17 @@ public class PharmacyService {
     public Pharmacy findById(int id) {
         LOGGER.info("PharmacyService:findById:" + id);
         return pharmacyRepository.findById(id);
+    }
+
+    public List<Pharmacy> findAll() {
+        LOGGER.info("PharmacyService:findAll:");
+        return  pharmacyRepository.findAll();
+    }
+
+    public List<Pharmacy> findAllByCountryIdAndDistrictIdAndProvinceId(long countryId, long districtId, long provinceId){
+        LOGGER.info("PharmacyService:findAllByCountryAndAndDistrictAndProvince:");
+        return  pharmacyRepository.findAllByCountryIdAndDistrictIdAndProvinceId(countryId,districtId,provinceId);
+
     }
 
 }
