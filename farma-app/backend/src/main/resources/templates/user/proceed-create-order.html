@@ -66,8 +66,8 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h4 class="card-title" style="color: #007bff;"><strong>Review your order</strong><br></h4>
-                                            <p class="card-text" style="font-size: 12px;">If you need to change your cart, you can do it. Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                                            <form>
+                                            <p class="card-text" style="font-size: 16px;">Prescription Code: &nbsp;<strong><span th:text="${userOrder.prescriptionCode}"></span></strong></p>
+                                            <form autocomplete="off" th:action="@{/updateCartItem}" method="post" class="form-horizontal" role="form">
                                                 <h6 class="text-muted mb-2" style="font-size: 22px;font-style: normal;font-weight: bold;">Cart</h6>
                                                 <div class="table-responsive" style="font-size: 12px;">
                                                     <table class="table">
@@ -76,30 +76,19 @@
                                                             <th></th>
                                                             <th>Availability</th>
                                                             <th>Price</th>
-                                                            <th>Exclude</th>
+                                                            <th>Include</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>Lamisil 250 mg Tablet</td>
+                                                        <tr th:each="orderItem : ${orderItemList}">
+                                                            <td><span th:text="${orderItem.medicineName}"></span></td>
                                                             <td>Yes</td>
-                                                            <td>$15</td>
+                                                            <td>$<span th:text="${orderItem.price}"></span></td>
                                                             <td>&nbsp; &nbsp; &nbsp;&nbsp;
-                                                                <input type="checkbox">
+                                                                <input type="checkbox" th:value="${orderItem.include}" th:checked="${orderItem.include}">
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Lamisil 250 mg Tablet
-                                                                <br>
-                                                            </td>
-                                                            <td>Yes</td>
-                                                            <td>$15</td>
-                                                            <td>&nbsp; &nbsp; &nbsp;&nbsp;
-                                                                <input type="checkbox">&nbsp;</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cell 1</td>
-                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -115,19 +104,12 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>Central Pharmacy</td>
+                                                        <tr th:each="p : ${form.userOrders}">
+                                                            <td><span th:text="${p.pharmacy.pharmacy_name}"></span></td>
                                                             <td>&nbsp; &nbsp; &nbsp;&nbsp;
-                                                                <input type="radio">
+                                                                     <input class="form-check-input" th:value="${p.active}" th:checked="${p.active}" type="radio" name="gridRadios" id="gridRadios1">
                                                             </td>
-                                                            <td>$50,94</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>ABC Pharmacy</td>
-                                                            <td>&nbsp; &nbsp; &nbsp;&nbsp;
-                                                                <input type="radio">
-                                                            </td>
-                                                            <td>$51,02</td>
+                                                            <td>$<span th:text="${p.orderTotal}"></span></td>
                                                         </tr>
                                                         <tr></tr>
                                                         </tbody>
@@ -139,12 +121,12 @@
                                     </div>
                                 </div>
                                 <div class="col" style="padding-top: 75px;padding-right: 52px;">
-                                    <form style="width: 300px;height: 465px;background-color: rgb(246,246,246);">
+                                    <form style="width: 300px;height: 465px;background-color: rgb(246,246,246);" th:action="@{/user/complete-order}" method="post">
                                         <div class="card">
                                             <div class="card-body" style="height: 360px;">
                                                 <h4 class="card-title" style="color: #007bff;"><strong>Order Summary</strong><br></h4>
                                                 <hr>
-                                                <h6 class="text-muted card-subtitle mb-2">5 medicine(s)</h6>
+                                                <h6 class="text-muted card-subtitle mb-2"><span th:text="${orderItemList.size()}"></span> medicine(s)</h6>
                                                 <p style="font-size: 11px;">By placing your order, you agree to Farma's privacy notice and conditions of use.</p>
                                                 <div class="table-responsive" style="width: 183px;height: 128px;font-size: 10px;">
                                                     <table class="table">
@@ -154,20 +136,20 @@
                                                         <tbody>
                                                         <tr>
                                                             <td>Items:</td>
-                                                            <td>$50.94</td>
+                                                            <td>$<span th:text="${orderTotal}"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Shipping:</td>
-                                                            <td>$6.06</td>
+                                                            <td>$<span th:text="${shipping}"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Pharmacy:</td>
-                                                            <td>Central</td>
+                                                            <td><span th:text="${selectedPharmacyName}"></span></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <p style="font-size: 14px;font-weight: bold;padding-top: 5px;">Order Total: $78.59</p>
+                                                <p style="font-size: 14px;font-weight: bold;padding-top: 5px;">Order Total: $<span th:text="${grandTotal}"></span></p>
                                             </div>
                                         </div>
                                         <div class="form-row">

@@ -44,4 +44,7 @@ public class UserOrder {
     private String prescriptionCode;
 
     private String prescriptionStatus;
+
+    @Column(name = "active", nullable = false)
+    private boolean active = false;
 }

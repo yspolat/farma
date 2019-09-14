@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -20,11 +19,19 @@ public class OrderItem {
     @Column(name = "order_id")
     private Integer id;
 
-    private BigDecimal price;
+    private Double price;
+
+    private String medicineName;
 
     private String medicine_code;
 
     @ManyToOne
     private UserOrder userOrder;
+
+    @Column(name = "include", nullable = false)
+    private boolean include = false;
+
+    @Column(name = "submitted", nullable = false)
+    private boolean submitted = false;
 
 }

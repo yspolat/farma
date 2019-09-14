@@ -1,10 +1,14 @@
 package com.it529.teamgy.pharmacyapp.controller;
 
+import com.it529.teamgy.pharmacyapp.form.PharmacyForm;
+import com.it529.teamgy.pharmacyapp.form.UserOrderDTO;
 import com.it529.teamgy.pharmacyapp.model.*;
 import com.it529.teamgy.pharmacyapp.rest.consume.ResponseDummyAPI;
 import com.it529.teamgy.pharmacyapp.rest.produce.Medicine;
 import com.it529.teamgy.pharmacyapp.service.*;
 import com.it529.teamgy.pharmacyapp.util.Util;
+import org.aspectj.weaver.ast.Or;
+import org.hibernate.criterion.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +16,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,6 +48,9 @@ public class UserOrderController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private OrderItemService orderItemService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @RequestMapping(value={"/user/proceed-create-order"}, method = RequestMethod.GET)
@@ -51,14 +58,35 @@ public class UserOrderController {
 
         LOGGER.info("UserOrderController:proceedCreateOrderPage:");
         ModelAndView modelAndView = new ModelAndView();
+        double shipping = 5.0;
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        UserOrder userOrder = userOrderService.findByUserId(user.getId());
+        UserOrder userOrder = userOrderService.findByUserIdAndSubmittedAndActive(user.getId(),false, true);
+        List<UserOrder> allPharmacies = userOrderService.findAllByUserIdAndSubmitted(user.getId(),false);
 
-        OrderItem orderItem1 = new OrderItem();
-        //orderItem1.setPrice();
 
+        UserOrderDTO uOForm = new UserOrderDTO();
+
+
+        for(UserOrder uO: allPharmacies){
+            uOForm.addUserOrder(uO);
+        }
+
+        List<OrderItem> orderItemList = orderItemService.findAllByUserOrderId(userOrder.getId());
+
+        modelAndView.addObject("orderTotal", findOrderTotal(orderItemList));
+        modelAndView.addObject("grandTotal", findOrderTotal(orderItemList) + shipping);
+
+        modelAndView.addObject("shipping", shipping);
+        modelAndView.addObject("userOrder", userOrder);
+        modelAndView.addObject("selectedPharmacyName", userOrder.getPharmacy().getPharmacy_name());
+        modelAndView.addObject("allP", allPharmacies);
+        modelAndView.addObject("form", uOForm);
+
+
+        modelAndView.addObject("orderItemList", orderItemList);
+        modelAndView.addObject("pharmacyCandidates", null);
         modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
 
         LOGGER.info("UserOrderController:proceedCreateOrderPage:userOrder" + userOrder.getId());
@@ -96,7 +124,7 @@ public class UserOrderController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        UserOrder userOrder = userOrderService.findByUserId(user.getId());
+        UserOrder userOrder = userOrderService.findByUserIdAndSubmittedAndActive(user.getId(),false, true);
 
         if (userOrder == null) {
             userOrder = new UserOrder();
@@ -104,6 +132,7 @@ public class UserOrderController {
             //userOrder.setOrderDate(new Date());
             userOrder.setSubmitted(false);
             userOrder.setOrderStatus("In progress");
+            userOrder.setActive(true);
             userOrderService.createNewUserOrder(userOrder);
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -127,35 +156,123 @@ public class UserOrderController {
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
-            UserOrder persistedUserOrder = userOrderService.findByUserId(user.getId());
+            UserOrder persistedUserOrder = userOrderService.findByUserIdAndSubmittedAndActive(user.getId(),false, true);
+
+            // check this prescription is used before?
+            UserOrder checkUserOrder = userOrderService.findByUserIdAndSubmittedAndActiveAndPrescriptionCode(
+                    user.getId(),false, true, userOrder.getPrescriptionCode());
+
+            if(checkUserOrder != null){
+                if(checkUserOrder.getPrescriptionCode().equals(userOrder.getPrescriptionCode()) && checkUserOrder.isSubmitted()
+                        && checkUserOrder.isActive()){
+                    persistedUserOrder.setPrescriptionStatus("Exceed");
+                    userOrderService.update(persistedUserOrder);
+                    modelAndView.setViewName("redirect:/user/create-order");
+                    return modelAndView;
+                }
+            }
+
 
             ResponseDummyAPI responseDummyAPI = getMedicinesFromAPI(userOrder.getPrescriptionCode());
             persistedUserOrder.setPrescriptionStatus(responseDummyAPI.getMessage());
             persistedUserOrder.setPrescriptionCode(userOrder.getPrescriptionCode());
             persistedUserOrder.setOrderDate(Util.getTodayDate());
             userOrderService.update(persistedUserOrder);
+
+            removeBeforeSessionOrderItems(persistedUserOrder.getId());
+            removeBeforeSessionInactiveUserOrders(user.getId(),false,false);
             //
             if(responseDummyAPI.getMessage().equals("Valid")){
                 //modelAndView.addObject("successMessage", "PaymentMethod successfully has been added ");
 
                 List<OrderItem> orderItems = fillOrderItems(responseDummyAPI,persistedUserOrder); // get prescription code medicines from dummy api
-                List<Pharmacy> pharmacyCandidates= seekPharmacyRetail(user,orderItems); // match them with pharmacy and find suitable pharmacy(s)
+                List<PharmacyForm> pharmacyCandidates= seekPharmacyRetail(user,orderItems); // match them with pharmacy and find suitable pharmacy(s)
+                int nullCheck = pharmacyCandidates.size()-1;
 
-                if(pharmacyCandidates != null){
-                    userOrder.setPharmacy(pharmacyCandidates.get(0)); // set first
+                if(nullCheck != -1){
+                    int lastOne = pharmacyCandidates.size()-1;
+                    persistedUserOrder.setPharmacy(pharmacyCandidates.get(lastOne).getPharmacy()); // set first
+                    persistedUserOrder.setOrderTotal(BigDecimal.valueOf(pharmacyCandidates.get(lastOne).getOrderTotal()));
+                    userOrderService.update(persistedUserOrder);
+                    createUserOrderForSubPharmacies(persistedUserOrder,pharmacyCandidates);
 
-                    //send orderItems to another page
+                    orderItemService.saveAll(orderItems);
                     modelAndView.setViewName("redirect:/user/proceed-create-order");
                     //
-                }else{
+                } else{
+                    persistedUserOrder.setPrescriptionStatus("Failed");
+                    userOrderService.update(persistedUserOrder);
                     LOGGER.info("There is no suitable candidate for this prescription code" + userOrder.getPrescriptionCode());
                     modelAndView.setViewName("redirect:/user/create-order");
                 }
 
-            }else{
+            } else{
                 modelAndView.setViewName("redirect:/user/create-order");
             }
         }
+
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/updateCartItem")
+    public String updateCart(@ModelAttribute UserOrderDTO form, Model model) {
+
+        LOGGER.info("" + form.getUserOrders().size());
+
+        return "redirect:/user/proceed-create-order";
+    }
+
+    @PostMapping(value = "/user/complete-order")
+    public String completeOrder(Model model) {
+
+        // UserOrder
+        // active-true
+        // user_user_id
+        // submitted-false
+        // Find it and then
+        // submitted --> true
+        // shipping date, bos birak orayi user dolduracak
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        UserOrder finalOrder = userOrderService.findByUserIdAndSubmittedAndActive(user.getId(),false, true);
+        finalOrder.setSubmitted(true);
+        userOrderService.update(finalOrder);
+        userOrderService.deleteAllByUserIdAndSubmittedAndActive(user.getId(),false,false);
+
+        List<OrderItem> finalOrderItems = orderItemService.findAllByUserOrderId(finalOrder.getId());
+
+        for(OrderItem orderItem : finalOrderItems){
+
+            orderItem.setSubmitted(true);
+            orderItemService.update(orderItem);
+
+            // Inventory update
+            Product product = productService.findByProduct_code(orderItem.getMedicine_code());
+            PharmacyProduct pharmacyProduct = pharmacyProductService.findByProduct_IdAndPharmacyId(product.getId(),finalOrder.getPharmacy().getId());
+            int quantity = pharmacyProduct.getQuantity();
+            pharmacyProduct.setQuantity(quantity-1);
+            pharmacyProductService.update(pharmacyProduct);
+            orderItemService.update(orderItem);
+            //
+        }
+
+        LOGGER.info("UserOrderController:completeOrder:Order is completed:orderId"+finalOrder.getId());
+
+        return "redirect:/user/orders";
+    }
+
+    @RequestMapping(value = "/user/update-order", method = RequestMethod.POST)
+    public ModelAndView updateUserOrder(@RequestParam(value="allP") List<UserOrder> allPharmacies) {
+
+        LOGGER.info("UserOrderController:updateUserOrder:");
+        LOGGER.info("UserOrderController:updateUserOrder:-->" + allPharmacies.size());
+
+        //LOGGER.info(""+orderItemList.size());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/user/proceed-create-order");
+
 
         return modelAndView;
     }
@@ -187,7 +304,7 @@ public class UserOrderController {
         for (Medicine medicine: responseDummyAPI.getMedicines()){
             OrderItem orderItem = new OrderItem();
             orderItem.setMedicine_code(medicine.getCode());
-            orderItem.setPrice(BigDecimal.valueOf(15));
+            orderItem.setPrice(0.0);
             orderItem.setUserOrder(userOrder);
             cart.add(orderItem);
         }
@@ -196,14 +313,15 @@ public class UserOrderController {
 
     }
 
-    private List<Pharmacy> seekPharmacyRetail(User user, List<OrderItem> orderItems){
+    private List<PharmacyForm> seekPharmacyRetail(User user, List<OrderItem> orderItems){
 
         boolean pharmacy_flag = true;
+        double orderTotal = 0;
 
         List<Pharmacy> allPharmaciesByUserAddress = pharmacyService.findAllByCountryIdAndDistrictIdAndProvinceId(
                 user.getCountry().getId(),user.getDistrict().getId(),user.getProvince().getId());
 
-        List<Pharmacy> finalPharmacyRetails = new ArrayList<>();
+        List<PharmacyForm> pharmacyForms = new ArrayList<>();
 
         for(Pharmacy pharmacy: allPharmaciesByUserAddress){
             LOGGER.info("UserProfileController:seekPharmacyRetail:" + pharmacy.getPharmacy_name());
@@ -216,16 +334,24 @@ public class UserOrderController {
                 if (pharmacyProduct != null){
                     if (pharmacyProduct.getQuantity() > 0){
                         LOGGER.info("medicineCode:" + orderItem.getMedicine_code() + " found by for pharmacyId: " + pharmacy.getId()
-                                + ":pharmacyName:" + pharmacy.getPharmacy_name() );
+                                + ":pharmacyName:" + pharmacy.getPharmacy_name() + "productName:" + pharmacyProduct.getProduct().getProduct_name()
+                                + "price:" + pharmacyProduct.getPrice());
+                        LOGGER.info("orderTotal" + orderTotal);
+                        orderTotal += pharmacyProduct.getPrice();
+                        orderItem.setPrice(pharmacyProduct.getPrice());
+                        orderItem.setMedicineName(pharmacyProduct.getProduct().getProduct_name());
+                        orderItem.setInclude(true);
                     }else{
                         LOGGER.info("medicineCode:" + orderItem.getMedicine_code() + " found by BUT QUANTITY ISSUE for pharmacyId: " + pharmacy.getId()
                                 + ":pharmacyName:" + pharmacy.getPharmacy_name() );
                         pharmacy_flag = false;
+                        orderTotal=0;
                         break;
                     }
 
                 }else{
                     pharmacy_flag = false;
+                    orderTotal=0;
                     LOGGER.info("medicineCode:" + orderItem.getMedicine_code() + " NOT FOUND by for pharmacyId: " + pharmacy.getId()
                             + ":pharmacyName:" + pharmacy.getPharmacy_name() + " CANNOT BE CANDIDATE");
                     break;
@@ -233,23 +359,57 @@ public class UserOrderController {
             }
 
             if (pharmacy_flag) {
-                finalPharmacyRetails.add(pharmacy);
+                PharmacyForm p = new PharmacyForm();
+                p.setPharmacy(pharmacy);
+                p.setOrderTotal(orderTotal);
+                pharmacyForms.add(p);
                 LOGGER.info("UserProfileController:seekPharmacyRetail:---> One of the best candidate:pharmacyId:" + pharmacy.getId()
                        +  "pharmacyName:"+ pharmacy.getPharmacy_name());
             }
+            orderTotal=0;
         }
 
-        return finalPharmacyRetails;
+        return pharmacyForms;
     }
 
-    private Product findProductByProductCode(String productCode){
+    private void removeBeforeSessionOrderItems(int userOrderId){
+        //orderItemService.deleteAllByUserOrderId(userOrderId);
+        orderItemService.deleteAllByUserOrderIdAndSubmitted(userOrderId,false);
+    }
 
-        List<Product> allProducts = productService.findAll();
-        for(Product product:allProducts){
-            if(product.getProduct_code().equals(productCode)){
-                return product;
-            }
+    private void removeBeforeSessionInactiveUserOrders(int id, boolean submitted, boolean active){
+        userOrderService.deleteAllByUserIdAndSubmittedAndActive(id,submitted,active);
+    }
+
+    private double findOrderTotal(List<OrderItem> orderItems){
+
+        double grandTotal=0;
+
+        for(OrderItem orderItem: orderItems){
+            grandTotal += orderItem.getPrice();
         }
-        return null;
+
+        return grandTotal;
+    }
+
+    private void createUserOrderForSubPharmacies(UserOrder userOrder, List<PharmacyForm> finalPharmacyRetails){
+
+        for(PharmacyForm pharmacyForm: finalPharmacyRetails){
+            if(userOrder.getPharmacy().getId() != pharmacyForm.getPharmacy().getId()){
+
+                UserOrder newUserOrder = new UserOrder();
+                newUserOrder.setPharmacy(pharmacyForm.getPharmacy());
+                newUserOrder.setOrderDate(userOrder.getOrderDate());
+                newUserOrder.setOrderStatus(userOrder.getOrderStatus());
+                newUserOrder.setSubmitted(userOrder.isSubmitted());
+                newUserOrder.setPrescriptionCode(userOrder.getPrescriptionCode());
+                newUserOrder.setPrescriptionStatus(userOrder.getPrescriptionStatus());
+                newUserOrder.setUser(userOrder.getUser());
+                newUserOrder.setOrderTotal(BigDecimal.valueOf(pharmacyForm.getOrderTotal()));
+
+                userOrderService.createNewUserOrder(newUserOrder);
+            }
+
+        }
     }
 }
