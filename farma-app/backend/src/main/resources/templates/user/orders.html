@@ -71,7 +71,7 @@
                         <div class="container-fluid" style="padding-top: 19px;background-color: #ffffff;">
                             <div class="col">
                                 <div class="row">
-                                    <div class="alert alert-success text-primary border-info" role="alert"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;"><strong>&nbsp;</strong>Your order has been successfully received.</span></div>
+                                    <div class="alert alert-success text-primary border-info" th:if="${!success}" role="alert"><i class="fa fa-info-circle" style="font-size: 15px;"></i><span style="font-size: 13px;"><strong>&nbsp;</strong>Your order has been successfully received.</span></div>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -81,21 +81,13 @@
                                         <th>Order ID</th>
                                         <th>Status</th>
                                         <th>Grand Total</th>
-                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>Cell 1</td>
-                                        <td>Cell 2</td>
-                                        <td>Cell 2</td>
-                                        <td><a href="#"><i class="far fa-comment-alt" style="font-size: 18px;color: #007bff;"></i></a><span>&nbsp; &nbsp;</span><a href="#"><i class="fas fa-search" style="font-size: 18px;color: #007bff;"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cell 3</td>
-                                        <td>Cell 2</td>
-                                        <td>Cell 4</td>
-                                        <td><a href="#"><i class="far fa-comment-alt" style="font-size: 18px;color: #007bff;"></i></a><span>&nbsp; &nbsp;</span><a href="#"><i class="fas fa-search" style="font-size: 18px;color: #007bff;"></i></a></td>
+                                    <tr th:each="userOrder : ${userOrders}">
+                                        <td><span th:text="${userOrder.id}"></span></td>
+                                        <td><span th:text="${userOrder.orderStatus}"></span></td>
+                                        <td>$<span th:text="${userOrder.orderTotal}"></span></td>
                                     </tr>
                                     </tbody>
                                 </table>

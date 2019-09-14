@@ -63,6 +63,11 @@ public class UserOrderService {
         return userOrderRepository.findAllByUserIdAndSubmitted(userId,submitted);
     }
 
+    public List<UserOrder> findAllByPharmacyIdAndSubmittedAndActive(int id, boolean submitted, boolean active){
+        LOGGER.info("UserOrderService:findByUserIdAndSubmitted:pharmacyId:" + id + "submitted" + submitted + ":active" + active);
+        return userOrderRepository.findAllByPharmacyIdAndSubmittedAndActive(id,submitted,active);
+    }
+
     public UserOrder findByUserIdAndSubmittedAndActive (int userId, boolean submitted, boolean active){
         LOGGER.info("UserOrderService:findByUserIdAndSubmittedAndActive:userId:" + userId + "submitted:" + submitted + ":active:" + active);
         return userOrderRepository.findByUserIdAndSubmittedAndActive(userId,submitted,active);

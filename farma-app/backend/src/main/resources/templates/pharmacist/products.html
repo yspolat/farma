@@ -183,37 +183,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-info py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>NEAR EXPIRY</span></div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>5</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-battery-quarter fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-warning py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>EXPIRED</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>18</span></div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-skull-crossbones fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col">
                         <a href="add-product" class="btn btn-primary" role="button">Add Product</a>
@@ -225,7 +194,6 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Stock</th>
@@ -236,7 +204,6 @@
                         <tbody>
                             <tr th:each="pharmacyProduct : ${pharmacyProducts}">
                                 <td><span th:text="${pharmacyProduct.id}"></span></td>
-                                <td><img src="/pharmacy/img/drug_60_60.png" width="50" height="50"></td>
                                 <td><span th:text="${pharmacyProduct.product.product_name}"></span></td>
                                 <td><span th:text="${pharmacyProduct.price}"></span></td>
                                 <td><span th:text="${pharmacyProduct.quantity}"></span></td>
@@ -257,21 +224,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
                 </div>
             </div>
         </div>

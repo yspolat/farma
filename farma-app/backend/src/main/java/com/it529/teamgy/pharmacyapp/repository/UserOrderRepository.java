@@ -18,6 +18,8 @@ public interface UserOrderRepository extends JpaRepository<UserOrder, Integer> {
 
     UserOrder findByUserIdAndSubmitted(int id, boolean submitted);
 
+    List<UserOrder> findAllByPharmacyIdAndSubmittedAndActive(int id, boolean submitted, boolean active);
+
     List<UserOrder> findAllByUserIdAndSubmitted(int id, boolean submitted);
 
     UserOrder findByUserIdAndSubmittedAndActive(int id, boolean submitted, boolean active);

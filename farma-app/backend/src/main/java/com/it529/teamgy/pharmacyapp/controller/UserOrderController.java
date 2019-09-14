@@ -7,8 +7,6 @@ import com.it529.teamgy.pharmacyapp.rest.consume.ResponseDummyAPI;
 import com.it529.teamgy.pharmacyapp.rest.produce.Medicine;
 import com.it529.teamgy.pharmacyapp.service.*;
 import com.it529.teamgy.pharmacyapp.util.Util;
-import org.aspectj.weaver.ast.Or;
-import org.hibernate.criterion.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -281,6 +279,15 @@ public class UserOrderController {
     public ModelAndView createOrderPage(){
         LOGGER.info("UserProfileController:createOrderPage:");
         ModelAndView modelAndView = new ModelAndView();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        List<UserOrder> userOrders = userOrderService.findAllByUserIdAndSubmitted(user.getId(), true);
+
+        modelAndView.addObject("userOrders", userOrders);
+        modelAndView.addObject("success", true);
+
+
         return modelAndView;
     }
 
