@@ -2,6 +2,7 @@ package com.it529.teamgy.pharmacyapp.controller;
 
 import com.it529.teamgy.pharmacyapp.model.*;
 import com.it529.teamgy.pharmacyapp.service.AddressService;
+import com.it529.teamgy.pharmacyapp.service.AlertService;
 import com.it529.teamgy.pharmacyapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public class PharmacistProfileController {
     @Autowired
     AddressService addressService;
 
+    @Autowired
+    AlertService alertService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 
@@ -44,6 +48,12 @@ public class PharmacistProfileController {
         List<Country> countries =  addressService.findAllCountry();
         List<District> districts = addressService.findAllDistricts();
 
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
+
+        int alertCount = alerts.size();
+
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
         modelAndView.addObject("userFullName", user.getName() + " " + user.getLastName());
         modelAndView.addObject("user", user);
         modelAndView.addObject("countries", countries);

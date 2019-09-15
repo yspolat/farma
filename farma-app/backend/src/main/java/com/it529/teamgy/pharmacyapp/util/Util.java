@@ -24,4 +24,10 @@ public class Util {
 
         return todayDate;
     }
+
+    public static Date getYesterdayDate() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
+    }
 }

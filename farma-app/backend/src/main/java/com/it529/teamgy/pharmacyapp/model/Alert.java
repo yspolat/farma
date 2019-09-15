@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Builder
@@ -23,7 +20,14 @@ public class Alert {
 
     private String content;
 
-    private String status;
+    private Integer userOrderId;
 
-    // USER
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date alertDate;
+
+    @Column(name = "read", nullable = false)
+    private boolean read = false;
+
+    @ManyToOne
+    private User user;
 }

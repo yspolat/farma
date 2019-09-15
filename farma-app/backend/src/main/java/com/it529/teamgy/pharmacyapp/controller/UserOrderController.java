@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -48,6 +49,9 @@ public class UserOrderController {
 
     @Autowired
     private OrderItemService orderItemService;
+
+    @Autowired
+    private AlertService alertService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -145,6 +149,8 @@ public class UserOrderController {
         LOGGER.info("UserOrderController:createStartOrder:");
         LOGGER.info("UserOrderController:createStartOrder:prescriptionCode" + userOrder.getPrescriptionCode());
 
+        double shippingPrice = 5;
+
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             LOGGER.error("UserOrderController:createStartOrder:bindingResultHasErrors");
@@ -190,7 +196,7 @@ public class UserOrderController {
                 if(nullCheck != -1){
                     int lastOne = pharmacyCandidates.size()-1;
                     persistedUserOrder.setPharmacy(pharmacyCandidates.get(lastOne).getPharmacy()); // set first
-                    persistedUserOrder.setOrderTotal(BigDecimal.valueOf(pharmacyCandidates.get(lastOne).getOrderTotal()));
+                    persistedUserOrder.setOrderTotal(BigDecimal.valueOf(pharmacyCandidates.get(lastOne).getOrderTotal() + shippingPrice));
                     userOrderService.update(persistedUserOrder);
                     createUserOrderForSubPharmacies(persistedUserOrder,pharmacyCandidates);
 
@@ -255,6 +261,16 @@ public class UserOrderController {
             //
         }
 
+        // Create Alert for pharmacist //
+        Alert alert = new Alert();
+        alert.setAlertDate(Util.getTodayDate());
+        alert.setContent(finalOrder.getOrderTotal().toString());
+        alert.setRead(false);
+        alert.setUser(user);
+        alert.setUserOrderId(finalOrder.getId());
+        alertService.createNewAlert(alert);
+        //
+
         LOGGER.info("UserOrderController:completeOrder:Order is completed:orderId"+finalOrder.getId());
 
         return "redirect:/user/orders";
@@ -277,17 +293,40 @@ public class UserOrderController {
 
     @RequestMapping(value = {"/user/orders"}, method = RequestMethod.GET)
     public ModelAndView createOrderPage(){
-        LOGGER.info("UserProfileController:createOrderPage:");
+        LOGGER.info("UserOrderController:createOrderPage:");
         ModelAndView modelAndView = new ModelAndView();
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         List<UserOrder> userOrders = userOrderService.findAllByUserIdAndSubmitted(user.getId(), true);
 
+
+
         modelAndView.addObject("userOrders", userOrders);
         modelAndView.addObject("success", true);
 
 
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/user/view-order", method = RequestMethod.POST)
+    public ModelAndView createViewOrderPage (@RequestParam(name="userOrderId")String userOrderId) {
+
+        LOGGER.info("UserOrderController:createViewOrderPage:paymentMethodId:"+ userOrderId);
+        ModelAndView modelAndView = new ModelAndView();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        UserOrder userOrder = userOrderService.findById(Integer.valueOf(userOrderId));
+
+        List<OrderItem> orderItems = orderItemService.findAllByUserOrderId(Integer.valueOf(userOrderId));
+
+        modelAndView.addObject("orderItems", orderItems);
+        modelAndView.addObject("userOrder", userOrder);
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
+
+
+        modelAndView.setViewName("/user/view-order.html");
         return modelAndView;
     }
 

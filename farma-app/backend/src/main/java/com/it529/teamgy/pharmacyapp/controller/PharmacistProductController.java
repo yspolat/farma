@@ -1,13 +1,7 @@
 package com.it529.teamgy.pharmacyapp.controller;
 
-import com.it529.teamgy.pharmacyapp.model.Pharmacy;
-import com.it529.teamgy.pharmacyapp.model.PharmacyProduct;
-import com.it529.teamgy.pharmacyapp.model.Product;
-import com.it529.teamgy.pharmacyapp.model.User;
-import com.it529.teamgy.pharmacyapp.service.PharmacyProductService;
-import com.it529.teamgy.pharmacyapp.service.PharmacyService;
-import com.it529.teamgy.pharmacyapp.service.ProductService;
-import com.it529.teamgy.pharmacyapp.service.UserService;
+import com.it529.teamgy.pharmacyapp.model.*;
+import com.it529.teamgy.pharmacyapp.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +30,9 @@ public class PharmacistProductController {
     @Autowired
     PharmacyProductService pharmacyProductService;
 
+    @Autowired
+    AlertService alertService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 
@@ -50,6 +47,12 @@ public class PharmacistProductController {
         Pharmacy pharmacy = user.getPharmacy();
         List<PharmacyProduct> pharmacyProducts = pharmacyProductService.findAllByPharmacyId(pharmacy.getId());
 
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
+
+        int alertCount = alerts.size();
+
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
 
         modelAndView.addObject("totalProducts", pharmacyProductService.findAllByPharmacyId(pharmacy.getId()).size());
         modelAndView.addObject("outOfStockProducts", pharmacyProductService.findAllOutOfStock().size());
@@ -78,6 +81,12 @@ public class PharmacistProductController {
         User user = userService.findUserByEmail(auth.getName());
         Pharmacy pharmacy = user.getPharmacy();
 
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
+
+        int alertCount = alerts.size();
+
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
         modelAndView.addObject("products", products);
         modelAndView.addObject("pharmacyProduct", pharmacyProduct);
         modelAndView.addObject("pharmacyName", pharmacy.getPharmacy_name());
@@ -151,6 +160,13 @@ public class PharmacistProductController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         Pharmacy pharmacy = user.getPharmacy();
+
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
+
+        int alertCount = alerts.size();
+
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
 
         modelAndView.addObject("pharmacyProduct", pharmacyProduct);
         modelAndView.addObject("pharmacyName", pharmacy.getPharmacy_name());

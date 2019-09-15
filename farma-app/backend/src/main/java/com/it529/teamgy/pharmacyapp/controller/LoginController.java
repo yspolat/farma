@@ -2,9 +2,11 @@ package com.it529.teamgy.pharmacyapp.controller;
 
 import javax.validation.Valid;
 
+import com.it529.teamgy.pharmacyapp.model.Alert;
+import com.it529.teamgy.pharmacyapp.model.Pharmacy;
 import com.it529.teamgy.pharmacyapp.model.User;
-import com.it529.teamgy.pharmacyapp.service.PharmacyService;
-import com.it529.teamgy.pharmacyapp.service.UserService;
+import com.it529.teamgy.pharmacyapp.model.UserOrder;
+import com.it529.teamgy.pharmacyapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class LoginController {
 
@@ -22,6 +26,15 @@ public class LoginController {
 
     @Autowired
     private PharmacyService pharmacyService;
+
+    @Autowired
+    private PharmacyProductService pharmacyProductService;
+
+    @Autowired
+    private UserOrderService userOrderService;
+
+    @Autowired
+    private AlertService alertService;
 
     @RequestMapping(value={"/login"}, method = RequestMethod.GET)
     public ModelAndView loginPage(){
@@ -66,7 +79,31 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
+        Pharmacy pharmacy = user.getPharmacy();
+
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
+        int alertCount = alerts.size();
+
+        List<UserOrder> orders = userOrderService.findAllByPharmacyIdAndSubmittedAndActive(pharmacy.getId(),true,true);
+
+        int pendingOrderCount=0;
+        double earningsCount = 0;
+
+        for(UserOrder uO : orders){
+            if(uO.getOrderStatus().equals("In progress")){
+                pendingOrderCount+=1;
+                earningsCount+= uO.getOrderTotal().doubleValue();
+            }
+        }
+
+        modelAndView.addObject("alerts", alerts);
+        modelAndView.addObject("countTotalOrders", orders.size());
+        modelAndView.addObject("pendingOrderCount", pendingOrderCount);
+        modelAndView.addObject("earningsCount", earningsCount);
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
         modelAndView.addObject("userFullName", user.getName() + " " + user.getLastName());
+        modelAndView.addObject("totalProducts", pharmacyProductService.findAllByPharmacyId(pharmacy.getId()).size());
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
         modelAndView.setViewName("pharmacist/home");
         return modelAndView;

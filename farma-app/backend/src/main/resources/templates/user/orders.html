@@ -20,6 +20,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <style>
+        .clean-block.clean-form form {
+            border-top: 0px solid #5ea4f3;
+            background-color: #fff;
+            margin: unset;
+            padding: 0px;
+            box-shadow: 0 0px 0px rgba(0,0,0,.075);
+        }
+    </style>
 </head>
 
 <body>
@@ -79,6 +88,7 @@
                                     <thead>
                                     <tr>
                                         <th>Order ID</th>
+                                        <th>Date</th>
                                         <th>Status</th>
                                         <th>Grand Total</th>
                                     </tr>
@@ -86,8 +96,16 @@
                                     <tbody>
                                     <tr th:each="userOrder : ${userOrders}">
                                         <td><span th:text="${userOrder.id}"></span></td>
+                                        <td><span th:text="${#dates.format(userOrder.orderDate, 'dd-MM-yyyy HH:MM')}"></span></td>
                                         <td><span th:text="${userOrder.orderStatus}"></span></td>
                                         <td>$<span th:text="${userOrder.orderTotal}"></span></td>
+                                        <td>
+                                            <span>
+                                                <form method="POST" th:action="@{/user/view-order(userOrderId=${userOrder.id})}">
+                                                     <input type="submit" value="View" class="btn btn-outline-primary" />
+                                                </form>
+                                             </span>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

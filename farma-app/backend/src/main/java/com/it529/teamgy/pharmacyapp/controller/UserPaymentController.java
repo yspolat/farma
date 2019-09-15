@@ -33,24 +33,6 @@ public class UserPaymentController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-
-    @RequestMapping(value = {"/user/profile"}, method = RequestMethod.GET)
-    public ModelAndView profilePage(){
-        LOGGER.info("UserProfileController:profilePage:");
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        List <Province> provinces = addressService.findAllProvinces();
-        List<Country> countries =  addressService.findAllCountry();
-
-        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
-        modelAndView.addObject("userEmail", user.getEmail());
-        modelAndView.addObject("countries", countries);
-        modelAndView.addObject("provinces", provinces);
-
-        return modelAndView;
-    }
-
     @RequestMapping(value = {"/user/home"}, method = RequestMethod.GET)
     public ModelAndView homePage(){
         LOGGER.info("UserProfileController:homePage:");

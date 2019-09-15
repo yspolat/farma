@@ -1,10 +1,8 @@
 package com.it529.teamgy.pharmacyapp.controller;
 
 import com.it529.teamgy.pharmacyapp.form.OrderStatusForm;
-import com.it529.teamgy.pharmacyapp.model.OrderItem;
-import com.it529.teamgy.pharmacyapp.model.Pharmacy;
-import com.it529.teamgy.pharmacyapp.model.User;
-import com.it529.teamgy.pharmacyapp.model.UserOrder;
+import com.it529.teamgy.pharmacyapp.model.*;
+import com.it529.teamgy.pharmacyapp.service.AlertService;
 import com.it529.teamgy.pharmacyapp.service.OrderItemService;
 import com.it529.teamgy.pharmacyapp.service.UserOrderService;
 import com.it529.teamgy.pharmacyapp.service.UserService;
@@ -39,6 +37,9 @@ public class PharmacistOrderController {
     @Autowired
     UserOrderService userOrderService;
 
+    @Autowired
+    AlertService alertService;
+
     @RequestMapping(value={"/pharmacist/orders"}, method = RequestMethod.GET)
     public ModelAndView ordersPage(){
 
@@ -50,7 +51,12 @@ public class PharmacistOrderController {
         Pharmacy pharmacy = user.getPharmacy();
         List<UserOrder> pharmacyOrders = userOrderService.findAllByPharmacyIdAndSubmittedAndActive(pharmacy.getId(), true, true);
 
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
 
+        int alertCount = alerts.size();
+
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
         modelAndView.addObject("pharmacyOrders", pharmacyOrders);
         modelAndView.addObject("pharmacyName", pharmacy.getPharmacy_name());
         modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
@@ -80,10 +86,15 @@ public class PharmacistOrderController {
         List<OrderStatusForm> orderStats = new ArrayList<>();
 
         orderStats.add(new OrderStatusForm("In progress"));
-        orderStats.add(new OrderStatusForm("Ordered"));
         orderStats.add(new OrderStatusForm("Out for delivery"));
         orderStats.add(new OrderStatusForm("Delivered"));
 
+        List<Alert> alerts = alertService.findAllByUserId(user.getId());
+
+        int alertCount = alerts.size();
+
+        modelAndView.addObject("alertCount", alertCount);
+        modelAndView.addObject("alerts", alerts);
         modelAndView.addObject("pharmacyOrderItems", pharmacyOrderItems);
         modelAndView.addObject("orderStats", orderStats);
         modelAndView.addObject("pharmacyOrder", pharmacyOrder);
@@ -109,7 +120,7 @@ public class PharmacistOrderController {
         LOGGER.info("PharmacistProductController:editProductPage:userFullName:"+ user.getName() +" "+ user.getLastName());
         */
 
-        modelAndView.setViewName("/pharmacist/view-product.html");
+        modelAndView.setViewName("/pharmacist/view-order.html");
         return modelAndView;
     }
 

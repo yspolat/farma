@@ -86,5 +86,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserOrder> userOrders;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Alert> alerts;
+
 }
 

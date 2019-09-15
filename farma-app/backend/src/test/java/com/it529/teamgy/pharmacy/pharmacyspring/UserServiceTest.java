@@ -1,5 +1,6 @@
 package com.it529.teamgy.pharmacy.pharmacyspring;
 
+import com.it529.teamgy.pharmacyapp.model.Product;
 import com.it529.teamgy.pharmacyapp.model.User;
 import com.it529.teamgy.pharmacyapp.repository.RoleRepository;
 import com.it529.teamgy.pharmacyapp.repository.UserRepository;
@@ -27,6 +28,8 @@ public class UserServiceTest {
 
     private UserService userServiceUnderTest;
     private User user;
+
+    private Product product;
 
     @Before
     public void setUp() {

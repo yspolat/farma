@@ -22,7 +22,6 @@ public class OrderItemService {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Autowired
     public OrderItemService(OrderItemRepository orderItemRepository){
         this.orderItemRepository = orderItemRepository;

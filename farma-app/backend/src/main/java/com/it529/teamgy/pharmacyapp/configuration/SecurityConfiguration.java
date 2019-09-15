@@ -68,4 +68,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/**", "/bootstrap/**", "/js/**", "/images/**", "/service/**");
     }
 
+
+
 }
