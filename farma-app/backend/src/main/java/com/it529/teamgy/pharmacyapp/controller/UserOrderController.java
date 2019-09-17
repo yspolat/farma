@@ -139,6 +139,8 @@ public class UserOrderController {
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userOrder", userOrder);
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
+
 
         return modelAndView;
     }
@@ -301,7 +303,7 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderService.findAllByUserIdAndSubmitted(user.getId(), true);
 
 
-
+        modelAndView.addObject("userFullName", user.getName() +" "+ user.getLastName());
         modelAndView.addObject("userOrders", userOrders);
         modelAndView.addObject("success", true);
 

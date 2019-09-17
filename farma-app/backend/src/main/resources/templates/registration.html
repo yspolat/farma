@@ -1,71 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Registration Form</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-<form th:action="@{/}" method="get">
-    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
-</form>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Registration - Farma</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/Login-Form-Dark.css}">
+    <link rel="stylesheet" th:href="@{/css/Sidebar-Menu-1.css}">
+    <link rel="stylesheet" th:href="@{/css/Sidebar-Menu.css}">
+    <link rel="stylesheet" th:href="@{/css/smoothproducts.css}">
+    <link rel="stylesheet" th:href="@{/css/Header-Blue.css}">
+    <link rel="stylesheet" th:href="@{/fonts/fontawesome5-overrides.min.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+</head>
+
+<body>
+<main class="page login-page">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info" style="padding-top: 25px;">Registration</h2>
+            </div>
+        </div>
+        <div class="form-container">
             <form autocomplete="off" action="#" th:action="@{/registration}"
                   th:object="${user}" method="post" class="form-horizontal"
                   role="form">
-                <h2>Registration Form</h2>
-                <div class="form-group">
-                    <div class="col-sm-9">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                               class="validation-message"></label>
-                        <input type="text" th:field="*{name}" placeholder="Name"
-                               class="form-control"/>
-                    </div>
+                <div class="form-row">
+                    <div class="col" style="padding-left: 64px;padding-bottom: 18px;"><img th:src="@{/images/registration.png}"  width="300"></div>
                 </div>
-
+                <h2 class="text-center"><strong>Create</strong> an account</h2>
+                <p style="padding-top: 23px;"><strong>Personal Details &nbsp;</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <br>Enter your email address and password</p>
                 <div class="form-group">
-                    <div class="col-sm-9">
-                        <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                               class="validation-message"></label>
-                        <input type="text" th:field="*{lastName}"
-                               placeholder="Last Name" class="form-control"/>
-                    </div>
+                    <input class="form-control form-control-sm" th:field="*{name}" name="Name" placeholder="Name" required="" minlength="5" maxlength="25"><span class="invisible">Text</span>
+                    <input class="form-control form-control-sm" th:field="*{lastName}" name="Lastname" placeholder="Lastname" required="" minlength="5" maxlength="25"><span class="invisible">Text</span>
+                    <input class="form-control form-control-sm" th:field="*{email}" type="email" name="email" placeholder="Email" required="" minlength="5" maxlength="25">
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-9">
-                        <input type="text" th:field="*{email}" placeholder="Email"
-                               class="form-control"/> <label
-                            th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                            class="validation-message"></label>
+                    <input class="form-control form-control-sm" th:field="*{password}" type="password" name="password" placeholder="Password" required="" minlength="8" maxlength="25">
+                </div>
+                <div class="form-group">
+                    <p style="height: 76px;padding-top: 7px;"><strong>Shipping Details&nbsp;&nbsp;</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <br>Enter the name and address, you'd like us to ship your order to. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+                    <div>
+                        <p>*Country</p>
+                        <select class="form-control-sm" th:field="*{country.id}">
+                            <option th:each="c : ${countries}"
+                                    th:value="${c.id}"
+                                    th:text="${c.country_name}"
+                                    th:selected="${c.id} == ${user.country.id}"></option>
+                        </select>
+                    </div>
+                    <input type="hidden" th:field="${user.id}" th:value="${user.id}" />
+                    <p>*Province</p>
+                    <select class="form-control-sm" th:field="*{province.id}">
+                        <option th:each="p : ${provinces}"
+                                th:value="${p.id}"
+                                th:text="${p.province_name}"
+                                th:selected="${p.id} == ${user.province.id}"></option>
+                    </select>
+                    <p style="padding-top: 9px;">*District</p>
+                    <select class="form-control-sm" th:field="*{district.id}">
+                        <option th:each="d : ${districts}"
+                                th:value="${d.id}"
+                                th:text="${d.district_name}"
+                                th:selected="${d.id} == ${user.district.id}"></option>
+                    </select>
+                    <div>
+                        <p></p>
+                    </div>
+                    <div>
+                        <p>*&nbsp;Address Line</p>
+                        <input class="form-control form-control-sm" th:value="*{address}" type="text" minlength="10" maxlength="50">
+                    </div>
+                    <div style="padding-top: 9px;"></div>
+                    <div style="padding-top: 9px;"></div>
+                    <div></div>
+                    <div>
+                        <p style="padding-top: 0px;">*Mobile Number</p>
+                    </div>
+                    <input class="form-control form-control-sm" type="text" th:value="*{mobileNumber}" name="mobileNumber">
+                    <div class="form-check">
+                        <label class="form-check-label" style="padding-top: 12px;">
+                            <input class="form-check-input" type="checkbox" required="">I agree to the license terms.</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-9">
-                        <input type="password" th:field="*{password}"
-                               placeholder="Password" class="form-control"/> <label
-                            th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                            class="validation-message"></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-9">
-                        <button type="submit" class="btn btn-primary btn-block">Register User</button>
-                    </div>
-                </div>
-
-                <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
-
+                    <button type="submit" class="btn btn-info btn-block text-center">Create My Account</button>
+                </div><a class="already" href="login">You already have an account? Login here.</a>
             </form>
+            <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+                <div class="container"><a class="navbar-brand logo" href="/" style="font-size: 27px;">&nbsp;<i class="fas fa-store" style="color: rgb(0,123,255);font-size: 27px;"></i>&nbsp;Farma</a>
+                    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="/" style="color: rgb(0,0,0);">Home</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="/user/faq" style="color: rgb(0,0,0);">FAQ</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="/" style="color: rgb(0,0,0);">ABOUT US</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="settings" style="font-weight: bold;color: #007bff;"><i class="fa fa-user-circle"></i>&nbsp;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-    </div>
-</div>
-
+    </section>
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+        <div class="container"><a class="navbar-brand logo" href="/" style="font-size: 27px;">&nbsp;<i class="fas fa-store" style="color: rgb(0,123,255);font-size: 27px;"></i>&nbsp;Farma</a>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/" style="color: rgb(0,0,0);">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/user/faq" style="color: rgb(0,0,0);">FAQ</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="about" style="color: rgb(0,0,0);">ABOUT US</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="login">LOGIN</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link invisible" href="settings" style="font-weight: bold;color: #007bff;"><i class="fa fa-user-circle"></i>&nbsp;</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <footer class="page-footer dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3" style="font-size: 14px;">
+                    <h5>About us</h5>
+                    <ul>
+                        <li></li>
+                        <li><a href="contactus">Contact us</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3" style="font-size: 14px;">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3" style="font-size: 14px;">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="terms">Terms of User&amp;Service</a></li>
+                        <li></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p style="font-size: 14px;">© 2019 Copyright Farma</p>
+        </div>
+    </footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="/js/smoothproducts.min.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/Sidebar-Menu.js"></script>
 </body>
+
 </html>

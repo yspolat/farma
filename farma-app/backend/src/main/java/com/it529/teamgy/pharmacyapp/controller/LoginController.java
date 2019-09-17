@@ -2,10 +2,7 @@ package com.it529.teamgy.pharmacyapp.controller;
 
 import javax.validation.Valid;
 
-import com.it529.teamgy.pharmacyapp.model.Alert;
-import com.it529.teamgy.pharmacyapp.model.Pharmacy;
-import com.it529.teamgy.pharmacyapp.model.User;
-import com.it529.teamgy.pharmacyapp.model.UserOrder;
+import com.it529.teamgy.pharmacyapp.model.*;
 import com.it529.teamgy.pharmacyapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,6 +33,9 @@ public class LoginController {
     @Autowired
     private AlertService alertService;
 
+    @Autowired
+    private AddressService addressService;
+
     @RequestMapping(value={"/login"}, method = RequestMethod.GET)
     public ModelAndView loginPage(){
         ModelAndView modelAndView = new ModelAndView();
@@ -43,11 +43,34 @@ public class LoginController {
         return modelAndView;
     }
 
+    @RequestMapping(value={"/contactus"}, method = RequestMethod.GET)
+    public ModelAndView contactUsPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/contactus.html");
+        return modelAndView;
+    }
+
+    @RequestMapping(value={"/faq"}, method = RequestMethod.GET)
+    public ModelAndView faqPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/faq.html");
+        return modelAndView;
+    }
+
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public ModelAndView registrationPage(){
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
+
+        List<Province> provinces = addressService.findAllProvinces();
+        List<Country> countries =  addressService.findAllCountry();
+        List<District> districts = addressService.findAllDistricts();
+
         modelAndView.addObject("user", user);
+        modelAndView.addObject("countries", countries);
+        modelAndView.addObject("provinces", provinces);
+        modelAndView.addObject("districts", districts);
+
         modelAndView.setViewName("/registration.html");
         return modelAndView;
     }
@@ -64,11 +87,11 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("/registration.html");
         } else {
-            user.setPharmacy(pharmacyService.findById(1));
+            //user.setPharmacy(pharmacyService.findById(1));
             userService.createUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("/registration.html");
+            modelAndView.setViewName("/login.html");
 
         }
         return modelAndView;

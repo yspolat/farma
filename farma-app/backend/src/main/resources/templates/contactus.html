@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Login - Farma</title>
+    <title>Contact Us - Farma</title>
     <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/Login-Form-Dark.css}">
     <link rel="stylesheet" th:href="@{/css/Sidebar-Menu-1.css}">
@@ -26,21 +26,23 @@
     <section class="clean-block clean-form dark">
         <div class="container">
             <div class="block-heading">
-                <h2 class="text-info" style="padding-top: 25px;">Log In</h2>
-                <p>Please enter your Email and Password</p>
+                <h2 class="text-info" style="padding-top: 25px;color: #007bff;"><strong>GET IN TOUCH</strong></h2>
+                <p>Feel free to contact our specialists to find out more about our prices and services.<br>We are always ready to answer your questions.</p>
             </div>
-            <form th:action="@{/login}" method="POST" class="form-signin">
-                <img th:src="@{/images/login.png}" width="430">
-                <div class="form-group"></div>
-                <div class="form-group"><label for="email">Email</label>
-                    <input type="text" id="email" name="email" th:placeholder="Email" class="form-control item" required=""/>
-                </div>
-                <div class="form-group"><label for="password">Password</label>
-                    <input type="password" th:placeholder="Password" id="password" name="password" class="form-control" required=""/>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit"
-                        th:text="Login"></button>
-            </form>
+        </div>
+        <form>
+            <div class="form-group"><label>Name</label><input class="form-control" type="text"></div>
+            <div class="form-group"><label>Subject</label><input class="form-control" type="text"></div>
+            <div class="form-group"><label>Email</label><input class="form-control" type="email"></div>
+            <div class="form-group"><label>Message</label><textarea class="form-control"></textarea></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Submit</button></div>
+        </form>
+        <h2 class="text-primary"><br></h2>
+        <div class="card" style="background-color: rgb(231,231,231);">
+            <div class="card-body" style="width: 878px;padding-left: 560px;">
+                <p class="card-text">farma.io</p>
+                <p class="card-text"><strong>Phone</strong>: 322 76 22(FAARMAA)<br></p>
+                <p class="card-text"><strong>Address</strong>: Teknopark Istanbul</p><img th:src="@{/images/contacus.png}" width="300"></div>
         </div>
     </section>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
@@ -49,8 +51,9 @@
                     class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="/" style="color: rgb(0,0,0);">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/user/faq" style="color: rgb(0,0,0);">FAQ</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="faq" style="color: rgb(0,0,0);">FAQ</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="/" style="color: rgb(0,0,0);">ABOUT US</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="login">LOGIN</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="registration">SIGN UP</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link invisible" href="settings" style="font-weight: bold;color: #007bff;"><i class="fa fa-user-circle"></i>&nbsp;Yavuz SELIM POLAT</a></li>
                 </ul>
