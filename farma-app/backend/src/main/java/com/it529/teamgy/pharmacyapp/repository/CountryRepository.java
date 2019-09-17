@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository("countryRepository")
 public interface CountryRepository extends JpaRepository<Country, Integer> {
-    Country findById(int id);
+    Country findById(long id);
 
     @Override
     Page<Country> findAll(Pageable pageable);

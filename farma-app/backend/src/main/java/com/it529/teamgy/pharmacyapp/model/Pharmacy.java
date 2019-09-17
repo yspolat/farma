@@ -17,6 +17,9 @@ public class Pharmacy {
     private int id;
     private String pharmacy_name;
 
+    @Column(name = "active", nullable = true)
+    private boolean active;
+
     @OneToMany(mappedBy = "pharmacy")
     Set<PharmacyProduct> pharmacies;
 
@@ -37,4 +40,5 @@ public class Pharmacy {
     @ManyToOne
     @JoinColumn
     private Country country;
+
 }

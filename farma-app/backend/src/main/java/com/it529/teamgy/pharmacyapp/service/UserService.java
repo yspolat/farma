@@ -1,5 +1,6 @@
 package com.it529.teamgy.pharmacyapp.service;
 
+import com.it529.teamgy.pharmacyapp.model.Product;
 import com.it529.teamgy.pharmacyapp.model.Role;
 import com.it529.teamgy.pharmacyapp.model.User;
 import com.it529.teamgy.pharmacyapp.repository.RoleRepository;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,6 +89,12 @@ public class UserService {
 
         return persistedUser;
     }
+
+    /*
+    public User insertUserPharmacy(int pcode, int id){
+        LOGGER.info("ProductService:findByProduct_code:" + pcode);
+        return userRepository.insertUserPharmacy(pcode, id);
+    }*/
 
 
     /*
