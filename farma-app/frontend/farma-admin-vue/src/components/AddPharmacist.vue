@@ -15,10 +15,10 @@
         </div>
         <div class="form-group">
           <label for="name">Password: </label>
-          <input type="text" class="form-control" id="password" required v-model="pharmacy.password" name="password">
+          <input type="password" class="form-control" id="password" required v-model="pharmacy.password" name="password">
         </div>
         <div class="form-group">
-            <label for="country">Pharmacy : </label>
+            <label for="country">Select Pharmacy : </label>
             <select v-model="selected_pharm">
                 <option v-for="pharmacy in pharmacies" v-bind:value="{ id: pharmacy.id, text: pharmacy.name }">
                   {{ pharmacy.name }}

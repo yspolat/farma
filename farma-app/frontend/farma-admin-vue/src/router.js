@@ -25,8 +25,8 @@ export default new Router({
       ]
     },
     {
-      path: "/add-user",
-      name: "add-user",
+      path: "/add-pharmacy",
+      name: "add-pharmacy",
       component: AddPharmacy
     },
     {

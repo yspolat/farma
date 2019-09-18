@@ -111,11 +111,10 @@ public class PharmacyController {
         //user.setDistrict(district);
         //user.setProvince(province);
         //user.setCountry(country);
-        user.setPharmacy(pharmacy);
+        //user.setPharmacy(pharmacy);
         LOGGER.info("PharmacyController:newPharmacist:id" + pharmacy.getId() + ":pharmacyName:" + pharmacy.getPharmacy_name());
         userService.createUser(user);
-
-        //userService.insertUserPharmacy(pharmacy.getId(),user.getId());
+        userRepository.insertUserPharmacy(pharmacy.getId(),user.getId());
 
         return pharmacistDTO;
     }

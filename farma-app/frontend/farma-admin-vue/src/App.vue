@@ -1,11 +1,11 @@
 <template>
     <div id="app" class="container-fluid">
         <div class="site-info">
-            <h3>FARMA Admin Panel</h3>
+            <h3>FARMA Backoffice</h3>
         </div>
         <nav>
             <router-link class="btn btn-primary" to="/">All Pharmacies</router-link>
-            <router-link class="btn btn-primary" to="/add-user">Add Pharmacy</router-link>
+            <router-link class="btn btn-primary" to="/add-pharmacy">Add Pharmacy</router-link>
             <router-link class="btn btn-primary" to="/add-pharmacist">Add Pharmacist</router-link>
         </nav>
         <br/>

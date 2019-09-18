@@ -119,6 +119,7 @@ public class LoginController {
             }
         }
 
+        modelAndView.addObject("pharmacyName", pharmacy.getPharmacy_name());
         modelAndView.addObject("alerts", alerts);
         modelAndView.addObject("countTotalOrders", orders.size());
         modelAndView.addObject("pendingOrderCount", pendingOrderCount);
