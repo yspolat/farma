@@ -25,11 +25,8 @@ public class UserServiceTest {
     @Mock
     private RoleRepository mockUserRoleRepository;
 
-
     private UserService userServiceUnderTest;
     private User user;
-
-    private Product product;
 
     @Before
     public void setUp() {
