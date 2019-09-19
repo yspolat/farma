@@ -1,5 +1,6 @@
 package com.it529.teamgy.pharmacyapp.service;
 
+import com.it529.teamgy.pharmacyapp.model.Pharmacy;
 import com.it529.teamgy.pharmacyapp.model.Product;
 import com.it529.teamgy.pharmacyapp.model.Role;
 import com.it529.teamgy.pharmacyapp.model.User;
@@ -17,8 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Service("userService")
@@ -89,6 +92,18 @@ public class UserService {
 
         return persistedUser;
     }
+
+    @Transactional
+    public int insertUserPharmacy(Pharmacy pharmacy, User user) {
+
+        LOGGER.info("UserService:insertUserPharmacy:" + pharmacy.getId());
+        String queryString = "UPDATE farm.user SET pharmacy_id=? WHERE user_id=?;";
+        Query query = entityManager.createNativeQuery(queryString);
+        query.setParameter(1,pharmacy.getId());
+        query.setParameter(2,user.getId());
+        return query.executeUpdate();
+    }
+
 
     /*
     public User insertUserPharmacy(int pcode, int id){

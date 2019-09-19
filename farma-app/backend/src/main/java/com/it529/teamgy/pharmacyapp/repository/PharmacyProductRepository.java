@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public interface PharmacyProductRepository extends JpaRepository<PharmacyProduct
 
     List<PharmacyProduct> findAllByPharmacyId(int pharmacyId);
 
-    @Query("SELECT p FROM PharmacyProduct p WHERE p.quantity = 0")
-    List<PharmacyProduct> findAllOutOfStock();
+    @Query("SELECT p FROM PharmacyProduct p WHERE p.quantity = 0 and p.pharmacy = :pcode")
+    List<PharmacyProduct> findAllOutOfStock(@Param("pcode") Pharmacy pcode);
 
     long deletePharmacyProductByPharmacyAndProduct(Pharmacy pharmacy, Product product);
 

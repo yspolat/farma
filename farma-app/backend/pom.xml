@@ -13,7 +13,7 @@
 		<groupId>com.it529.teamgy.farmapp</groupId>
 		<artifactId>farma-app</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath>../pom.xml</relativePath> <!-- ADDED NEW - lookup parent from repository -->
 	</parent>
 
 	<properties>

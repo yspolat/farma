@@ -114,7 +114,7 @@ public class PharmacyController {
         //user.setPharmacy(pharmacy);
         LOGGER.info("PharmacyController:newPharmacist:id" + pharmacy.getId() + ":pharmacyName:" + pharmacy.getPharmacy_name());
         userService.createUser(user);
-        userRepository.insertUserPharmacy(pharmacy.getId(),user.getId());
+        userService.insertUserPharmacy(pharmacy, user);
 
         return pharmacistDTO;
     }

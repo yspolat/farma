@@ -15,11 +15,11 @@
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
         <div class="container-fluid d-flex flex-column p-0">
-            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/pharmacist/home">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-store"></i></div>
                 <div class="sidebar-brand-text mx-3"><span>FARMA</span></div>
             </a>
-            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/pharmacist/profile">
                 <div class="sidebar-brand-icon rotate-n-15"></div>
                 <div class="sidebar-brand-text mx-3"><span th:text="${pharmacyName}"></span></div>
             </a>
@@ -29,7 +29,6 @@
                     <a class="nav-link" href="/pharmacist/home"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
                     <a class="nav-link" href="/pharmacist/orders"><i class="fas fa-money-bill-alt"></i><span>Orders</span></a>
                     <a class="nav-link active" href="/pharmacist/products"><i class="fas fa-dolly"></i><span>Products</span></a>
-                    <a class="nav-link" href="/pharmacist/reports"><i class="far fa-chart-bar"></i><span>Reports</span></a>
                     <a class="nav-link" href="/pharmacist/profile"><i class="fas fa-user-tie"></i><span>Profile</span></a>
                 </li>
             </ul>
@@ -40,11 +39,11 @@
         <div id="content">
             <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                 <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                    <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <!--  <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search...">
                             <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
                         </div>
-                    </form>
+                    </form> -->
                     <ul class="nav navbar-nav flex-nowrap ml-auto">
                         <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
                             <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu" aria-labelledby="searchDropdown">

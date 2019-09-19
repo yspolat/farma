@@ -55,7 +55,7 @@ public class PharmacistProductController {
         modelAndView.addObject("alerts", alerts);
 
         modelAndView.addObject("totalProducts", pharmacyProductService.findAllByPharmacyId(pharmacy.getId()).size());
-        modelAndView.addObject("outOfStockProducts", pharmacyProductService.findAllOutOfStock().size());
+        modelAndView.addObject("outOfStockProducts", pharmacyProductService.findAllOutOfStock(pharmacy).size());
 
         modelAndView.addObject("pharmacyProducts", pharmacyProducts);
         modelAndView.addObject("pharmacyName", pharmacy.getPharmacy_name());

@@ -84,10 +84,10 @@ public class PharmacyProductService {
         return pharmacyProductRepository.deletePharmacyProductById(id);
     }
 
-    public List<PharmacyProduct> findAllOutOfStock() {
+    public List<PharmacyProduct> findAllOutOfStock(Pharmacy pcode) {
 
         LOGGER.info("PharmacyProduct:findAllOutOfStock:");
-        return pharmacyProductRepository.findAllOutOfStock();
+        return pharmacyProductRepository.findAllOutOfStock(pcode);
     }
 
 }
