@@ -268,7 +268,13 @@ public class UserOrderController {
         alert.setAlertDate(Util.getTodayDate());
         alert.setContent(finalOrder.getOrderTotal().toString());
         alert.setRead(false);
-        alert.setUser(user);
+
+        if(finalOrder.getPharmacy() != null){
+            if(finalOrder.getPharmacy().getUsers() != null){
+                alert.setUser(finalOrder.getPharmacy().getUsers().get(0));
+            }
+        }
+
         alert.setUserOrderId(finalOrder.getId());
         alertService.createNewAlert(alert);
         //

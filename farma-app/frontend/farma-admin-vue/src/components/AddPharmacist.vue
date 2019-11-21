@@ -42,10 +42,10 @@ export default {
   name: "add-pharmacy",
   data() {
     return {
-    selected_pharm: '',
-    pharmacies: [
-      {id: 1, name: 'CENTRAL PHARMACY'},
-      {id: 2, name: 'MIDTOWN PHARMACY'}
+    selected_plot: '',
+    plots: [
+      {id: 1, name: 'Short'},
+      {id: 2, name: 'Full'}
     ],
     selected_prov: '',
       pharmacy: {

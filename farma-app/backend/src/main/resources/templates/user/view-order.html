@@ -66,8 +66,11 @@
                         </div>
                         <div class="container-fluid" style="padding-top: 20px;background-color: #ffffff;">
                             <div class="col-lg-9">
-                                <div class="form-group"><input type="hidden"></div><label style="font-size: 14px;"><strong>Order ID :</strong>&nbsp;<span th:text="${userOrder.id}"></span></label>
-                                <div class="row">
+                                <div class="form-group">
+                                    <input type="hidden"></div><label style="font-size: 14px;"><strong>Order ID :</strong>&nbsp;<span th:text="${userOrder.id}"></span></label>
+                                <input type="hidden"></div><label style="font-size: 14px;"><strong>Pharmacy Name :</strong>&nbsp;<span th:text="${userOrder.pharmacy.pharmacy_name}"></span></label>
+
+                            <div class="row">
                                     <div class="col"><label style="font-size: 14px;"><strong>Date</strong></label>
                                         <div class="row">
                                             <div class="col"><input class="form-control form-control-sm" th:value="${#dates.format(userOrder.orderDate, 'dd-MM-yyyy HH:MM')}" disabled>

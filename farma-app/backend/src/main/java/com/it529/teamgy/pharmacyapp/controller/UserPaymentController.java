@@ -160,11 +160,4 @@ public class UserPaymentController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/user/faq"}, method = RequestMethod.GET)
-    public ModelAndView createFAQPage(){
-        LOGGER.info("UserProfileController:createFAQPage:");
-        ModelAndView modelAndView = new ModelAndView();
-        return modelAndView;
-    }
-
 }
