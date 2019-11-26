@@ -76,7 +76,7 @@ We tried to follow best practices and wanted to keep our design simple and lean 
 + **Testing Tools**
 	+ Swagger, JUnit and Mockito used in testing. Mockito is a framework for unit tests, can be used with JUnit and allowed us to create and configure mock objects. These are included in Spring Boot for testing.
 
-+ **Application Server **
++ **Application Server**
 	+ Wildfly
 
 
@@ -118,10 +118,10 @@ We are willing to follow Continuous Integration / Continuous Development best pr
 
 ### Screenshots
 
-**MARKETPLACE**
+*Marketplace*
 
 ![](https://github.com/yspolat/it529-farma/blob/master/media/marketplace.png?raw=true)
 
-**PRESENTATION**
+*Presentation*
 
 ![](https://github.com/yspolat/it529-farma/blob/master/media/presentation.png?raw=true)
