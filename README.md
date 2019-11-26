@@ -1,4 +1,4 @@
-# The Project Farma
+# Farma
 
 ![](https://github.com/yspolat/it529-farma/blob/master/media/farma_logo.png?raw=true)
 
@@ -19,11 +19,16 @@ Farma is an online pharmacy platform and the customers can easily buy their medi
 
 - Compatible with all major browsers (IE10+, Edge, Chrome, Firefox ) and devices(Android and iOS) thanks to Bootstrap.
 
-
-- [The Project Farma](#the-project-farma)
+**Table of Contents**
++ [Farma](#the-project-farma)
     + [Overview](#overview)
     + [Features](#features)
+    + [Use Case](#use-case)    
+    + [Design](#design)
     + [Database](#database)
+    + [Development](#development)
+    + [Maintenance](#maintenance)
+    + [Screenshots](#screenshots)
 
 ### Use Case
 
