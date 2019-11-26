@@ -40,19 +40,16 @@ For technical point of view and platform decision, we did very deep research to 
 
 ![](https://github.com/yspolat/it529-farma/blob/master/media/conceptual_design.png?raw=true)
 
-We tried to follow best practices and wanted to keep our design simple and lean in every aspect of UI, system and database.
-
-
-
-
-We would like to use fancy technologies like Bootstrap, Spring Boot and Vue.js
-
+We tried to follow best practices and wanted to keep our design simple and lean in every aspect of UI, system and database. Furhermore, we would like to use fancy technologies like Bootstrap, Spring Boot and Vue.js
 
 + **Back-end**
-	+ Spring Boot, Java
+	+ Spring Boot is a very good decision for us, and glad to use it in our project, since provide comprehensive infrastructure support for developing Java applications.
+	+ Spring Session and Authentication are very useful for the project for session, authorization and authentication contexts.
+	+ To provide data to front-end including Thymeleaf and Vue.js, it contains service and repository class. Hibernate–JPA made our lives easier. Without touching DB, we created all relations, tables and fields.
+    + Some parts are developed by Rest API such as Dummy API for Ministry of Health, pharmacist and pharmacy entities, rest can be turn to Rest API to be used for mobile app in the future.
 
 + ** Front-end**
-	+	Mostly Bootstrap, partially Vue.js, JavaScript
+	+	Mostly Bootstrap, partially Vue.js
 
 +  **Server** 
 	+ AWS as cloud provider is to host our project with using EC2 and RDS. There are two environments in the project, like in the industry production and development environment are used in our project's SDLC. We created AWS RDS instance which is PostgreSQL DB and has limited resources, because we could use only free-tier solutions. Furthermore, we created AWS EC2 - free tier and Operation system is Red Hat Enterprise Linux 8 and instance type is t2.micro (*Variable ECUs, 1 vCPUs, 2.5 GHz, Intel Xeon Family, 1 GiB memory, EBS only*). This server has application server (Wildfly or Apache Tomcat) and serves the application.
@@ -78,21 +75,8 @@ We would like to use fancy technologies like Bootstrap, Spring Boot and Vue.js
 + **Application Server **
 	+ Wildfly
 
-###Back-end
 
-- Spring Boot is a very good decision for us, and glad to use it in our project, since provide comprehensive infrastructure support for developing Java applications.
-- Spring Session and Authentication are very useful for our project for session, authorization and authentication contexts.
-- To provide data to front-end including Thymeleaf and Vue.js, it contains service and repository class. Hibernate–JPA made our lives easier. Without touching DB, we created all relations, tables and fields.
-- Some of the parts are developed by Rest API such as Dummy API for Ministry of Health, pharmacist and pharmacy entities, rest can be turn to Rest API to be used for mobile app in the future.
-
-###Server and Database
-
-+ Creating a PostgreSQL schema
-	+ Creating tables, queries and relationships to provide data to Restful API and front-end
-+ Implementation of RDS and EC2 services on Amazon Web Services (AWS).
-	+
-
-### Database
+#Database
 Following is ER diagram on our DB (PostgreSQL), and there are 13 entities in our schema (Farm) and there are relations Many to Many and One to Many and we aimed to keep design simple and understandable. Design can be scale according to new requirements. PostgreSQL is our decision for Relational Database. REST API and Spring JPA, Data currently consume Database for CRUD operations.
 
 *ER Diagram* 
@@ -126,7 +110,7 @@ Here is the dependencies that are used in Spring Boot;
 
 #Maintenance
 
-We are willing to follow Continuous Integration / Continuous Development best practices so on. Our plan is to help development team in building and testing software continuously and automate building, deployment and testing. Therefore, Jenkins is chosen one. In fact, we installed Jenkins on our AWS EC2 server, but configuration isn't completed yet.
+We are willing to follow Continuous Integration / Continuous Development best practices so on. Our plan is to help development team in building and testing software continuously and automate building, deployment and testing. Therefore, Jenkins is chosen one. In fact, we installed Jenkins on our AWS EC2 server, but configuration is not completed yet.
 
 #Screen-shots
 
