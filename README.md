@@ -20,13 +20,12 @@ Farma is an online pharmacy platform and the customers can easily buy their medi
 - Compatible with all major browsers (IE10+, Edge, Chrome, Firefox ) and devices(Android and iOS) thanks to Bootstrap.
 
 
-**Table of Contents**
+- [The Project Farma](#the-project-farma)
+    + [Overview](#overview)
+    + [Features](#features)
+    + [Database](#database)
 
-[TOCM]
-
-[TOC]
-
-#Use Case
+### Use Case
 
 **Customer**: Presentation layer is designed for the customer. Customers are literally end-user who want to order the medicines.
 
@@ -34,7 +33,7 @@ Farma is an online pharmacy platform and the customers can easily buy their medi
 
 **Administrator**: Master role and can control pharmacies and also pharmacists in Administrative layer.
 
-#Design
+### Design
 
 For technical point of view and platform decision, we did very deep research to determine proper technologies. Agile model and Aspect Oriented Programming are used and they could cut concerns like logging and security and enable cohesive development. It is a model is an iterative way to deal with arranging and directing project process. The reasons for using the Agile methodology are to complete our tasks as the segments are completed in the project. This continuous release program enabled us to show that our tasks are successful and if not, we need to accelerate, and if there is an error situation in the tasks, we focus on the this. Actually, we are not solving a problem, but we are trying to create a platform like Delivery Hero. Anyway, Agile helped reduce the possibility of large-scale failure, because there is continuous improvement throughout the project life cycle. This model encourages to start to project requirements, analysis, design, coding, testing and maintenance.
 
@@ -48,7 +47,7 @@ We tried to follow best practices and wanted to keep our design simple and lean 
 	+ To provide data to front-end including Thymeleaf and Vue.js, it contains service and repository class. Hibernate–JPA made our lives easier. Without touching DB, we created all relations, tables and fields.
     + Some parts are developed by Rest API such as Dummy API for Ministry of Health, pharmacist and pharmacy entities, rest can be turn to Rest API to be used for mobile app in the future.
 
-+ ** Front-end**
++ **Front-end**
 	+	Mostly Bootstrap, partially Vue.js
 
 +  **Server** 
@@ -57,7 +56,7 @@ We tried to follow best practices and wanted to keep our design simple and lean 
 + **Build Automation Tool**
 	+ Apache Maven
 
-+ ** Version Control**
++ **Version Control**
 	+ Git is also installed and configure, and our project deliverables went to GitHub private repository frequently.
 
 + **Relational Database**
@@ -76,13 +75,13 @@ We tried to follow best practices and wanted to keep our design simple and lean 
 	+ Wildfly
 
 
-#Database
+### Database
 Following is ER diagram on our DB (PostgreSQL), and there are 13 entities in our schema (Farm) and there are relations Many to Many and One to Many and we aimed to keep design simple and understandable. Design can be scale according to new requirements. PostgreSQL is our decision for Relational Database. REST API and Spring JPA, Data currently consume Database for CRUD operations.
 
 *ER Diagram* 
 ![](https://github.com/yspolat/it529-farma/blob/master/media/er_diagram.png?raw=true)
 
-#Development
+### Development
 There are two modules in main project. With our IDE - Intellij IDEA, those modules separated from each other. Our goal is to have a clear project structure. Both modules have Maven pom.xml and main folder also has own pom.xml as well.
 
 We set groupId, artifactId, version, name and description of project and choose necessary dependencies.
@@ -108,11 +107,11 @@ Here is the dependencies that are used in Spring Boot;
 + AWS RDS
     * It's Relational Database instance dependency
 
-#Maintenance
+### Maintenance
 
 We are willing to follow Continuous Integration / Continuous Development best practices so on. Our plan is to help development team in building and testing software continuously and automate building, deployment and testing. Therefore, Jenkins is chosen one. In fact, we installed Jenkins on our AWS EC2 server, but configuration is not completed yet.
 
-#Screen-shots
+### Screenshots
 
 **MARKETPLACE**
 
